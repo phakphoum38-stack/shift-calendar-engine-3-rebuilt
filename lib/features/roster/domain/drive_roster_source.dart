@@ -5,12 +5,16 @@ class DriveRosterSource {
     required this.name,
     required this.modifiedTime,
     required this.rosterMonth,
+    this.createdTime,
+    this.ownerNames = const [],
   });
 
   final String id;
   final String name;
   final DateTime modifiedTime;
   final DateTime rosterMonth;
+  final DateTime? createdTime;
+  final List<String> ownerNames;
 }
 
 /// Controls how a Google Sheets roster is interpreted.
@@ -20,6 +24,51 @@ enum SheetReadMode {
 
   /// Reads the sheet using the standard, uncustomized roster layout.
   standard,
+}
+
+/// Current values from the first worksheet, paired with the Drive creation
+/// timestamp that represents the file's first timeline.
+class SheetTimelineData {
+  SheetTimelineData({
+    required this.source,
+    required this.sheetTitle,
+    required List<List<String>> rows,
+  }) : rows = List.unmodifiable(
+         rows.map((row) => List<String>.unmodifiable(row)),
+       );
+
+  final DriveRosterSource source;
+  final String sheetTitle;
+  final List<List<String>> rows;
+
+  List<String> headersAt(int rowIndex) {
+    if (rowIndex < 0 || rowIndex >= rows.length) return const [];
+    return List.unmodifiable([
+      for (final (index, value) in rows[rowIndex].indexed)
+        value.trim().isEmpty ? 'Column ${index + 1}' : value.trim(),
+    ]);
+  }
+}
+
+enum ExchangeSheetField { giver, receiver, date, shift, type, reason, remark }
+
+class ExchangeTimelineRow {
+  const ExchangeTimelineRow({required this.rowNumber, required this.values});
+
+  final int rowNumber;
+  final Map<ExchangeSheetField, String> values;
+
+  String value(ExchangeSheetField field) => values[field]?.trim() ?? '';
+}
+
+class TimelineExchangeImportResult {
+  const TimelineExchangeImportResult({
+    required this.created,
+    required this.skipped,
+  });
+
+  final int created;
+  final int skipped;
 }
 
 /// Keeps one deterministic source per month.

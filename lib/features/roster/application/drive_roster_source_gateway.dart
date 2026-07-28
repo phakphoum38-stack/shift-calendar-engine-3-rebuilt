@@ -9,6 +9,8 @@ abstract interface class DriveRosterSourceGateway {
     DriveRosterSource source, {
     required SheetReadMode mode,
   });
+
+  Future<SheetTimelineData> loadFirstTimeline(DriveRosterSource source);
 }
 
 /// Safe production default until an OAuth-backed Drive adapter is configured.
@@ -28,6 +30,10 @@ class UnconfiguredDriveRosterSourceGateway implements DriveRosterSourceGateway {
     DriveRosterSource source, {
     required SheetReadMode mode,
   }) => throw const DriveRosterSourceException('google_drive_not_configured');
+
+  @override
+  Future<SheetTimelineData> loadFirstTimeline(DriveRosterSource source) =>
+      throw const DriveRosterSourceException('google_drive_not_configured');
 }
 
 class DriveRosterSourceException implements Exception {

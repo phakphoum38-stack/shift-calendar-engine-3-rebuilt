@@ -456,4 +456,73 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get retry => 'ลองใหม่';
+
+  @override
+  String get loadFirstTimeline => 'ดึงไทม์ไลน์แรก';
+
+  @override
+  String get timelineLoaded =>
+      'โหลดเวลาเริ่มต้นของไฟล์และข้อมูลชีตปัจจุบันแล้ว';
+
+  @override
+  String get timelineLoadFailed => 'ไม่สามารถโหลดไทม์ไลน์ของไฟล์ที่เลือกได้';
+
+  @override
+  String get firstFileTimeline => 'ไทม์ไลน์ของไฟล์ที่เลือก';
+
+  @override
+  String get fileCreatedTime => 'สร้างไฟล์ครั้งแรก';
+
+  @override
+  String get unknownCreatedTime => 'ไม่มีข้อมูลเวลาสร้างไฟล์';
+
+  @override
+  String get firstWorksheet => 'แท็บแรก';
+
+  @override
+  String get fileOwners => 'เจ้าของไฟล์';
+
+  @override
+  String get headerRow => 'แถวหัวตาราง';
+
+  @override
+  String rowNumber(int number) {
+    return 'แถวที่ $number';
+  }
+
+  @override
+  String get notMapped => 'ไม่กำหนด';
+
+  @override
+  String get exchangeDataPreview => 'ตัวอย่างข้อมูลสำหรับแลกเวร';
+
+  @override
+  String get noTimelineRows => 'ไม่พบแถวข้อมูลตามคอลัมน์ที่เลือก';
+
+  @override
+  String get row => 'แถว';
+
+  @override
+  String get date => 'วันที่';
+
+  @override
+  String get exchangeGiver => 'ผู้ยกเวร/ผู้ขอแลก';
+
+  @override
+  String get exchangeReceiver => 'ผู้รับเวร';
+
+  @override
+  String get exchangeType => 'รูปแบบการแลก';
+
+  @override
+  String get currentSheetValuesNotice =>
+      'เวลาสร้างครั้งแรกมาจาก Google Drive ส่วนรายชื่อและข้อมูลเวรอ่านจากแท็บแรกฉบับปัจจุบัน ไม่ใช่ข้อมูลเซลล์ใน revision แรก';
+
+  @override
+  String get createCoverRequests => 'สร้างคำขอยกเวร/รับเวร';
+
+  @override
+  String timelineImportResult(int created, int skipped) {
+    return 'สร้างคำขอ $created รายการ ข้าม $skipped แถว';
+  }
 }

@@ -101,6 +101,7 @@ class _AppShellState extends State<AppShell> {
         controllerFactory: widget.rosterControllerFactory,
         editorControllerFactory: widget.rosterEditorControllerFactory,
         driveSourceControllerFactory: widget.driveRosterSourceControllerFactory,
+        exchangeControllerFactory: widget.exchangeControllerFactory,
         googleWebClientId: widget.controller.settings.googleWebClientId,
         onScheduleSaved: widget.controller.adoptSchedule,
       ),

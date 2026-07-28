@@ -145,4 +145,36 @@
   ,"rejectionReason": "Rejection reason"
   ,"exchangeSaved": "Exchange request saved."
   ,"retry": "Retry"
+  ,"loadFirstTimeline": "Load first timeline"
+  ,"timelineLoaded": "The file timeline and current sheet rows were loaded."
+  ,"timelineLoadFailed": "Could not load the selected file timeline."
+  ,"firstFileTimeline": "Selected file timeline"
+  ,"fileCreatedTime": "First created"
+  ,"unknownCreatedTime": "Creation time unavailable"
+  ,"firstWorksheet": "First worksheet"
+  ,"fileOwners": "File owners"
+  ,"headerRow": "Header row"
+  ,"rowNumber": "Row {number}"
+  ,"@rowNumber": {
+    "placeholders": {
+      "number": {"type": "int"}
+    }
+  }
+  ,"notMapped": "Not mapped"
+  ,"exchangeDataPreview": "Exchange data preview"
+  ,"noTimelineRows": "No mapped data rows were found."
+  ,"row": "Row"
+  ,"date": "Date"
+  ,"exchangeGiver": "Shift giver / requester"
+  ,"exchangeReceiver": "Shift receiver"
+  ,"exchangeType": "Exchange type"
+  ,"currentSheetValuesNotice": "The creation time comes from Google Drive. Names and roster values come from the current first worksheet, not its historical first revision."
+  ,"createCoverRequests": "Create cover requests"
+  ,"timelineImportResult": "Created {created} requests; skipped {skipped} rows."
+  ,"@timelineImportResult": {
+    "placeholders": {
+      "created": {"type": "int"},
+      "skipped": {"type": "int"}
+    }
+  }
 }

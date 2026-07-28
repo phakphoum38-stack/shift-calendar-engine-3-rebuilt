@@ -25,7 +25,7 @@ class GoogleDriveRosterSourceGateway implements DriveRosterSourceGateway {
         spaces: 'drive',
         orderBy: 'modifiedTime desc',
         pageSize: 100,
-        $fields: 'files(id,name,modifiedTime)',
+        $fields: 'files(id,name,createdTime,modifiedTime,owners(displayName))',
       );
       return [
         for (final file in response.files ?? const <drive.File>[])
@@ -38,8 +38,61 @@ class GoogleDriveRosterSourceGateway implements DriveRosterSourceGateway {
                 file.name!,
                 file.modifiedTime ?? DateTime.now(),
               ),
+              createdTime: file.createdTime,
+              ownerNames: [
+                for (final owner in file.owners ?? const <drive.User>[])
+                  if (owner.displayName?.trim().isNotEmpty == true)
+                    owner.displayName!.trim(),
+              ],
             ),
       ];
+    } finally {
+      client.close();
+    }
+  }
+
+  @override
+  Future<SheetTimelineData> loadFirstTimeline(DriveRosterSource source) async {
+    if (!auth.signedIn) {
+      throw const DriveRosterSourceException('google_sign_in_required');
+    }
+    final client = await auth.authorizedClient();
+    try {
+      final api = sheets.SheetsApi(client);
+      final spreadsheet = await api.spreadsheets.get(
+        source.id,
+        includeGridData: false,
+        $fields: 'sheets(properties(sheetId,title,index))',
+      );
+      final worksheets =
+          List<sheets.Sheet>.of(
+            spreadsheet.sheets ?? const <sheets.Sheet>[],
+          )..sort(
+            (a, b) =>
+                (a.properties?.index ?? 0).compareTo(b.properties?.index ?? 0),
+          );
+      final title = worksheets.firstOrNull?.properties?.title;
+      if (title == null || title.trim().isEmpty) {
+        throw const DriveRosterSourceException('sheet_has_no_worksheets');
+      }
+      final escapedTitle = title.replaceAll("'", "''");
+      final values = await api.spreadsheets.values.get(
+        source.id,
+        "'$escapedTitle'!1:200",
+        majorDimension: 'ROWS',
+      );
+      return SheetTimelineData(
+        source: source,
+        sheetTitle: title,
+        rows: [
+          for (final row in values.values ?? const <List<Object?>>[])
+            [for (final value in row) value?.toString() ?? ''],
+        ],
+      );
+    } on DriveRosterSourceException {
+      rethrow;
+    } catch (error) {
+      throw DriveRosterSourceException('sheet_timeline_load_failed:$error');
     } finally {
       client.close();
     }

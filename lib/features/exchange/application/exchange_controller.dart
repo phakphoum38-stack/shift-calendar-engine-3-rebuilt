@@ -38,6 +38,12 @@ class ExchangeController extends ChangeNotifier {
   bool get loading => _loading;
   String? get error => _error;
 
+  void updateSchedule(Schedule value) {
+    if (identical(schedule, value)) return;
+    schedule = value;
+    notifyListeners();
+  }
+
   Future<void> load() async {
     if (_loading) return;
     _setLoading();

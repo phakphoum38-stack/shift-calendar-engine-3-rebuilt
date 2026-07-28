@@ -457,4 +457,73 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get retry => 'Retry';
+
+  @override
+  String get loadFirstTimeline => 'Load first timeline';
+
+  @override
+  String get timelineLoaded =>
+      'The file timeline and current sheet rows were loaded.';
+
+  @override
+  String get timelineLoadFailed => 'Could not load the selected file timeline.';
+
+  @override
+  String get firstFileTimeline => 'Selected file timeline';
+
+  @override
+  String get fileCreatedTime => 'First created';
+
+  @override
+  String get unknownCreatedTime => 'Creation time unavailable';
+
+  @override
+  String get firstWorksheet => 'First worksheet';
+
+  @override
+  String get fileOwners => 'File owners';
+
+  @override
+  String get headerRow => 'Header row';
+
+  @override
+  String rowNumber(int number) {
+    return 'Row $number';
+  }
+
+  @override
+  String get notMapped => 'Not mapped';
+
+  @override
+  String get exchangeDataPreview => 'Exchange data preview';
+
+  @override
+  String get noTimelineRows => 'No mapped data rows were found.';
+
+  @override
+  String get row => 'Row';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get exchangeGiver => 'Shift giver / requester';
+
+  @override
+  String get exchangeReceiver => 'Shift receiver';
+
+  @override
+  String get exchangeType => 'Exchange type';
+
+  @override
+  String get currentSheetValuesNotice =>
+      'The creation time comes from Google Drive. Names and roster values come from the current first worksheet, not its historical first revision.';
+
+  @override
+  String get createCoverRequests => 'Create cover requests';
+
+  @override
+  String timelineImportResult(int created, int skipped) {
+    return 'Created $created requests; skipped $skipped rows.';
+  }
 }

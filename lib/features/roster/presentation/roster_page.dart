@@ -7,6 +7,7 @@ import '../../../l10n/localized_date_format.dart';
 import '../application/roster_controller.dart';
 import '../application/roster_editor_controller.dart';
 import '../application/drive_roster_source_controller.dart';
+import '../../exchange/application/exchange_controller.dart';
 import 'google_drive_source_panel.dart';
 import 'roster_editor_page.dart';
 
@@ -17,6 +18,7 @@ class RosterPage extends StatefulWidget {
     required this.controllerFactory,
     required this.editorControllerFactory,
     required this.driveSourceControllerFactory,
+    required this.exchangeControllerFactory,
     required this.googleWebClientId,
     required this.onScheduleSaved,
     super.key,
@@ -27,6 +29,7 @@ class RosterPage extends StatefulWidget {
   final RosterEditorController Function(Schedule) editorControllerFactory;
   final DriveRosterSourceController Function(String)
   driveSourceControllerFactory;
+  final ExchangeController Function(Schedule) exchangeControllerFactory;
   final String googleWebClientId;
   final ValueChanged<Schedule> onScheduleSaved;
 
@@ -40,17 +43,21 @@ class _RosterPageState extends State<RosterPage> {
   );
   late final DriveRosterSourceController driveSourceController = widget
       .driveSourceControllerFactory(widget.googleWebClientId);
+  late final ExchangeController exchangeController = widget
+      .exchangeControllerFactory(widget.schedule);
 
   @override
   void didUpdateWidget(covariant RosterPage oldWidget) {
     super.didUpdateWidget(oldWidget);
     controller.updateSchedule(widget.schedule);
+    exchangeController.updateSchedule(widget.schedule);
   }
 
   @override
   void dispose() {
     controller.dispose();
     driveSourceController.dispose();
+    exchangeController.dispose();
     super.dispose();
   }
 
@@ -156,7 +163,10 @@ class _RosterPageState extends State<RosterPage> {
                 ),
               ),
           const SizedBox(height: 20),
-          GoogleDriveSourcePanel(controller: driveSourceController),
+          GoogleDriveSourcePanel(
+            controller: driveSourceController,
+            exchangeController: exchangeController,
+          ),
         ],
       );
     },

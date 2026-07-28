@@ -145,4 +145,36 @@
   ,"rejectionReason": "เหตุผลที่ปฏิเสธ"
   ,"exchangeSaved": "บันทึกคำขอแลกเวรแล้ว"
   ,"retry": "ลองใหม่"
+  ,"loadFirstTimeline": "ดึงไทม์ไลน์แรก"
+  ,"timelineLoaded": "โหลดเวลาเริ่มต้นของไฟล์และข้อมูลชีตปัจจุบันแล้ว"
+  ,"timelineLoadFailed": "ไม่สามารถโหลดไทม์ไลน์ของไฟล์ที่เลือกได้"
+  ,"firstFileTimeline": "ไทม์ไลน์ของไฟล์ที่เลือก"
+  ,"fileCreatedTime": "สร้างไฟล์ครั้งแรก"
+  ,"unknownCreatedTime": "ไม่มีข้อมูลเวลาสร้างไฟล์"
+  ,"firstWorksheet": "แท็บแรก"
+  ,"fileOwners": "เจ้าของไฟล์"
+  ,"headerRow": "แถวหัวตาราง"
+  ,"rowNumber": "แถวที่ {number}"
+  ,"@rowNumber": {
+    "placeholders": {
+      "number": {"type": "int"}
+    }
+  }
+  ,"notMapped": "ไม่กำหนด"
+  ,"exchangeDataPreview": "ตัวอย่างข้อมูลสำหรับแลกเวร"
+  ,"noTimelineRows": "ไม่พบแถวข้อมูลตามคอลัมน์ที่เลือก"
+  ,"row": "แถว"
+  ,"date": "วันที่"
+  ,"exchangeGiver": "ผู้ยกเวร/ผู้ขอแลก"
+  ,"exchangeReceiver": "ผู้รับเวร"
+  ,"exchangeType": "รูปแบบการแลก"
+  ,"currentSheetValuesNotice": "เวลาสร้างครั้งแรกมาจาก Google Drive ส่วนรายชื่อและข้อมูลเวรอ่านจากแท็บแรกฉบับปัจจุบัน ไม่ใช่ข้อมูลเซลล์ใน revision แรก"
+  ,"createCoverRequests": "สร้างคำขอยกเวร/รับเวร"
+  ,"timelineImportResult": "สร้างคำขอ {created} รายการ ข้าม {skipped} แถว"
+  ,"@timelineImportResult": {
+    "placeholders": {
+      "created": {"type": "int"},
+      "skipped": {"type": "int"}
+    }
+  }
 }

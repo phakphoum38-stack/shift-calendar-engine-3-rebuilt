@@ -8,7 +8,7 @@
 | 3 | Rule, conflict, policy, and preview engines | Planned |
 | 4 | Shift exchange, approval, audit history, notifications | In progress |
 | 5 | Payroll, OT, allowances, monthly summaries, exports | Planned |
-| 6 | Excel and Google Sheets import, mapping, relationship engine, diff | Planned |
+| 6 | Excel and Google Sheets import, mapping, relationship engine, diff | In progress |
 | 7 | Google Calendar preview, sync, retry, resume, history | Planned |
 | 8 | Workspace, hospital/personal profiles, backup and restore | Planned |
 | 9 | Integration tests, performance, security, offline support, release | Planned |
@@ -43,6 +43,18 @@ and PDF sharing.
 User identity/roles, attachments, notifications, a full audit timeline,
 workspace-configurable rules, payroll recalculation, and Calendar sync remain
 planned.
+
+## Delivered Phase 6 foundation
+
+- reads the selected Drive file's original `createdTime`
+- reads up to 200 current rows from the first worksheet
+- configurable header row and exchange-field column mapping
+- automatic Thai/English mapping suggestions
+- cover-request creation when giver, receiver, date, and shift match the
+  canonical employee directory and roster unambiguously
+
+Historical Google Sheets cell revisions, multi-tab selection, two-way swap
+pair import, full roster import/diff, and Excel import remain planned.
 
 ## Parallel production migration
 

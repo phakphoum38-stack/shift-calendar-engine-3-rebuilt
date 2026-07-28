@@ -967,6 +967,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Retry'**
   String get retry;
+
+  /// No description provided for @loadFirstTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Load first timeline'**
+  String get loadFirstTimeline;
+
+  /// No description provided for @timelineLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'The file timeline and current sheet rows were loaded.'**
+  String get timelineLoaded;
+
+  /// No description provided for @timelineLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the selected file timeline.'**
+  String get timelineLoadFailed;
+
+  /// No description provided for @firstFileTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected file timeline'**
+  String get firstFileTimeline;
+
+  /// No description provided for @fileCreatedTime.
+  ///
+  /// In en, this message translates to:
+  /// **'First created'**
+  String get fileCreatedTime;
+
+  /// No description provided for @unknownCreatedTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Creation time unavailable'**
+  String get unknownCreatedTime;
+
+  /// No description provided for @firstWorksheet.
+  ///
+  /// In en, this message translates to:
+  /// **'First worksheet'**
+  String get firstWorksheet;
+
+  /// No description provided for @fileOwners.
+  ///
+  /// In en, this message translates to:
+  /// **'File owners'**
+  String get fileOwners;
+
+  /// No description provided for @headerRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Header row'**
+  String get headerRow;
+
+  /// No description provided for @rowNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Row {number}'**
+  String rowNumber(int number);
+
+  /// No description provided for @notMapped.
+  ///
+  /// In en, this message translates to:
+  /// **'Not mapped'**
+  String get notMapped;
+
+  /// No description provided for @exchangeDataPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange data preview'**
+  String get exchangeDataPreview;
+
+  /// No description provided for @noTimelineRows.
+  ///
+  /// In en, this message translates to:
+  /// **'No mapped data rows were found.'**
+  String get noTimelineRows;
+
+  /// No description provided for @row.
+  ///
+  /// In en, this message translates to:
+  /// **'Row'**
+  String get row;
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
+  /// No description provided for @exchangeGiver.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift giver / requester'**
+  String get exchangeGiver;
+
+  /// No description provided for @exchangeReceiver.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift receiver'**
+  String get exchangeReceiver;
+
+  /// No description provided for @exchangeType.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange type'**
+  String get exchangeType;
+
+  /// No description provided for @currentSheetValuesNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'The creation time comes from Google Drive. Names and roster values come from the current first worksheet, not its historical first revision.'**
+  String get currentSheetValuesNotice;
+
+  /// No description provided for @createCoverRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Create cover requests'**
+  String get createCoverRequests;
+
+  /// No description provided for @timelineImportResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Created {created} requests; skipped {skipped} rows.'**
+  String timelineImportResult(int created, int skipped);
 }
 
 class _AppLocalizationsDelegate
