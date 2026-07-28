@@ -28,9 +28,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
           locale: _locale(decoded['locale']),
           theme: _theme(decoded['theme']),
           logic: _logic(decoded['logic']),
-          googleWebClientId: decoded['googleWebClientId'] is String
-              ? (decoded['googleWebClientId'] as String).trim()
-              : '',
+          googleWebClientId: _googleWebClientId(decoded['googleWebClientId']),
           demoMode: decoded['demoMode'] == true,
           rosterPolicy: _policy(decoded['rosterPolicy']),
         ),
@@ -90,6 +88,11 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
             .where((item) => item.name == value)
             .firstOrNull ??
         LocalePreference.system;
+  }
+
+  String _googleWebClientId(Object? value) {
+    final clientId = value is String ? value.trim() : '';
+    return clientId.isEmpty ? AppSettings.defaultGoogleWebClientId : clientId;
   }
 
   ThemePreference _theme(Object? value) {

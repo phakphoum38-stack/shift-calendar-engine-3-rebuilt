@@ -11,11 +11,15 @@ enum LogicPreference { standard, freestyle }
 
 /// User-owned non-schedule application preferences.
 class AppSettings {
+  static const defaultGoogleWebClientId =
+      '667656026445-pffm0rtkaiunhfujgfv52dlfb6pbtnm2'
+      '.apps.googleusercontent.com';
+
   const AppSettings({
     this.locale = LocalePreference.system,
     this.theme = ThemePreference.system,
     this.logic = LogicPreference.standard,
-    this.googleWebClientId = '',
+    this.googleWebClientId = defaultGoogleWebClientId,
     this.demoMode = false,
     this.rosterPolicy = const RosterPolicy(),
   });
