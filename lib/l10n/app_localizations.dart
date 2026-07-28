@@ -1165,6 +1165,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sheet-only rows'**
   String get remoteOnlyRows;
+
+  /// No description provided for @rosterRules.
+  ///
+  /// In en, this message translates to:
+  /// **'Roster rules and policy'**
+  String get rosterRules;
+
+  /// No description provided for @rosterRulesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure validation limits used by roster saves, exchange approval, imports, and payroll.'**
+  String get rosterRulesDescription;
+
+  /// No description provided for @minimumRestHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum rest hours'**
+  String get minimumRestHours;
+
+  /// No description provided for @maximumContinuousHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum continuous hours'**
+  String get maximumContinuousHours;
+
+  /// No description provided for @maximumShiftsPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum shifts per day'**
+  String get maximumShiftsPerDay;
+
+  /// No description provided for @maximumShiftsPerWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum shifts per week'**
+  String get maximumShiftsPerWeek;
+
+  /// No description provided for @maximumShiftsPerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum shifts per month'**
+  String get maximumShiftsPerMonth;
+
+  /// No description provided for @blockOverlappingShifts.
+  ///
+  /// In en, this message translates to:
+  /// **'Block overlapping shifts'**
+  String get blockOverlappingShifts;
+
+  /// No description provided for @requireExchangeApproval.
+  ///
+  /// In en, this message translates to:
+  /// **'Require exchange approval'**
+  String get requireExchangeApproval;
+
+  /// No description provided for @estimatedOvertime.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated OT'**
+  String get estimatedOvertime;
+
+  /// No description provided for @googleCalendarSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Calendar sync'**
+  String get googleCalendarSync;
+
+  /// No description provided for @googleCalendarSyncDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview changes for the selected employee, then sync approved shifts to the primary calendar without creating duplicates.'**
+  String get googleCalendarSyncDescription;
+
+  /// No description provided for @calendarEmployee.
+  ///
+  /// In en, this message translates to:
+  /// **'Employee'**
+  String get calendarEmployee;
+
+  /// No description provided for @previewCalendarSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview sync'**
+  String get previewCalendarSync;
+
+  /// No description provided for @syncCalendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync calendar'**
+  String get syncCalendar;
+
+  /// No description provided for @calendarCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get calendarCreate;
+
+  /// No description provided for @calendarUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get calendarUpdate;
+
+  /// No description provided for @calendarDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get calendarDelete;
+
+  /// No description provided for @calendarUnchanged.
+  ///
+  /// In en, this message translates to:
+  /// **'No change'**
+  String get calendarUnchanged;
 }
 
 class _AppLocalizationsDelegate

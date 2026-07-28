@@ -5,11 +5,11 @@
 | 0 | Foundation, canonical schedule, DI, responsive shell, l10n, CI | Complete |
 | 1 | Navigation surfaces, Dashboard, roster, employees, exchange, reports, settings | In progress |
 | 2 | Employee directory, shift templates, manual roster builder, persistence, A4 grid | Complete |
-| 3 | Rule, conflict, policy, and preview engines | Planned |
+| 3 | Rule, conflict, policy, and preview engines | Complete |
 | 4 | Shift exchange, approval, audit history, notifications | In progress |
-| 5 | Payroll, OT, allowances, monthly summaries, exports | Planned |
+| 5 | Payroll, OT, allowances, monthly summaries, exports | In progress |
 | 6 | Excel and Google Sheets import, mapping, relationship engine, diff | In progress |
-| 7 | Google Calendar preview, sync, retry, resume, history | Planned |
+| 7 | Google Calendar preview, sync, retry, resume, history | In progress |
 | 8 | Workspace, hospital/personal profiles, backup and restore | Planned |
 | 9 | Integration tests, performance, security, offline support, release | Planned |
 
@@ -41,8 +41,25 @@ and PDF sharing.
 - rollback to the previous schedule if final request persistence fails
 
 User identity/roles, attachments, notifications, a full audit timeline,
-workspace-configurable rules, payroll recalculation, and Calendar sync remain
-planned.
+and role-based approval remain planned.
+
+## Delivered Phase 3 rules
+
+- one central engine detects duplicate and overlapping shifts
+- minimum rest and maximum continuous-hour limits
+- daily, weekly, and monthly shift-count limits
+- configurable policy persisted with application settings
+- roster saves and exchange previews use the same policy
+
+## Delivered Phase 5 foundation
+
+- approved-shift base compensation
+- overtime threshold and multiplier
+- holiday multiplier
+- Dashboard base income and OT summary
+
+Allowances, deductions, payroll-period closing, approval history, and exports
+remain planned.
 
 ## Delivered Phase 6 foundation
 
@@ -57,6 +74,17 @@ planned.
 
 Historical Google Sheets cell revisions, multi-tab selection, two-way swap
 pair import, full roster import/diff, and Excel import remain planned.
+
+## Delivered Phase 7 foundation
+
+- employee-scoped Google Calendar preview
+- Create, Update, Delete, and Unchanged classifications
+- approved shifts only
+- private schedule, employee, and assignment identifiers for idempotent sync
+- only events created by this application are updated or deleted
+
+Retry queues, resume checkpoints, sync history, and background sync remain
+planned.
 
 ## Parallel production migration
 

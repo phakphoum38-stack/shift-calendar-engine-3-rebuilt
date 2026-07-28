@@ -1,3 +1,5 @@
+import 'roster_policy.dart';
+
 /// Supported runtime locale selection.
 enum LocalePreference { system, english, thai }
 
@@ -15,6 +17,7 @@ class AppSettings {
     this.logic = LogicPreference.standard,
     this.googleWebClientId = '',
     this.demoMode = false,
+    this.rosterPolicy = const RosterPolicy(),
   });
 
   final LocalePreference locale;
@@ -22,6 +25,7 @@ class AppSettings {
   final LogicPreference logic;
   final String googleWebClientId;
   final bool demoMode;
+  final RosterPolicy rosterPolicy;
 
   AppSettings copyWith({
     LocalePreference? locale,
@@ -29,6 +33,7 @@ class AppSettings {
     LogicPreference? logic,
     String? googleWebClientId,
     bool? demoMode,
+    RosterPolicy? rosterPolicy,
   }) {
     return AppSettings(
       locale: locale ?? this.locale,
@@ -36,6 +41,7 @@ class AppSettings {
       logic: logic ?? this.logic,
       googleWebClientId: googleWebClientId ?? this.googleWebClientId,
       demoMode: demoMode ?? this.demoMode,
+      rosterPolicy: rosterPolicy ?? this.rosterPolicy,
     );
   }
 }

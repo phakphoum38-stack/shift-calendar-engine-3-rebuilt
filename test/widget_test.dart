@@ -89,9 +89,10 @@ void main() {
 
     await tester.tap(find.byIcon(Icons.settings_outlined));
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.byType(SwitchListTile));
+    final demoSwitch = find.widgetWithText(SwitchListTile, 'Demo mode');
+    await tester.ensureVisible(demoSwitch);
     await tester.pumpAndSettle();
-    await tester.tap(find.byType(SwitchListTile));
+    await tester.tap(demoSwitch);
     await tester.pumpAndSettle();
     expect(controller.settings.demoMode, isTrue);
     expect(controller.schedule.assignments, hasLength(1));

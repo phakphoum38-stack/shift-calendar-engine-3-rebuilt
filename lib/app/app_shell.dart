@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../features/dashboard/application/dashboard_summary_service.dart';
 import '../features/dashboard/presentation/dashboard_page.dart';
+import '../features/calendar_sync/application/calendar_sync_controller.dart';
 import '../features/employees/presentation/employees_page.dart';
 import '../features/exchange/presentation/exchange_page.dart';
 import '../features/exchange/application/exchange_controller.dart';
@@ -30,6 +31,7 @@ class AppShell extends StatefulWidget {
     required this.rosterControllerFactory,
     required this.rosterEditorControllerFactory,
     required this.driveRosterSourceControllerFactory,
+    required this.calendarSyncControllerFactory,
     required this.employeeDirectoryControllerFactory,
     required this.exchangeControllerFactory,
     required this.shiftTemplateControllerFactory,
@@ -44,6 +46,8 @@ class AppShell extends StatefulWidget {
   rosterEditorControllerFactory;
   final DriveRosterSourceController Function(String webClientId)
   driveRosterSourceControllerFactory;
+  final CalendarSyncController Function(Schedule schedule)
+  calendarSyncControllerFactory;
   final EmployeeDirectoryController Function(Schedule schedule)
   employeeDirectoryControllerFactory;
   final ExchangeController Function(Schedule schedule)
@@ -95,12 +99,14 @@ class _AppShellState extends State<AppShell> {
         schedule: widget.controller.schedule,
         summaryService: widget.dashboardSummaryService,
         openRoster: () => setState(() => selectedIndex = 1),
+        policy: widget.controller.settings.rosterPolicy,
       ),
       RosterPage(
         schedule: widget.controller.schedule,
         controllerFactory: widget.rosterControllerFactory,
         editorControllerFactory: widget.rosterEditorControllerFactory,
         driveSourceControllerFactory: widget.driveRosterSourceControllerFactory,
+        calendarSyncControllerFactory: widget.calendarSyncControllerFactory,
         exchangeControllerFactory: widget.exchangeControllerFactory,
         googleWebClientId: widget.controller.settings.googleWebClientId,
         onScheduleSaved: widget.controller.adoptSchedule,

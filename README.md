@@ -17,7 +17,7 @@ Android, iOS, Windows, macOS และ Linux พร้อม UI ภาษาไ�
 
 ## ฟีเจอร์ที่พร้อมใช้งาน
 
-- Dashboard สรุปเวรวันนี้ พรุ่งนี้ เวรรายเดือน และรายได้โดยประมาณ
+- Dashboard สรุปเวรวันนี้ พรุ่งนี้ เวรรายเดือน รายได้ และ OT โดยประมาณ
 - จัดการพนักงาน: ค้นหา เพิ่ม แก้ไข และปิดใช้งาน
 - ป้องกันรหัสพนักงานซ้ำ
 - จัดการรูปแบบเวร: รหัส ชื่อ เวลาเริ่ม/สิ้นสุด ชั่วโมงทำงาน สี และค่าตอบแทน
@@ -33,12 +33,16 @@ Android, iOS, Windows, macOS และ Linux พร้อม UI ภาษาไ�
   ที่เลือกด้วย SHA-256 จำนวนแถว และผลต่างระดับเซลล์
 - ระบบยกเวร/แลกเวร พร้อมตอบรับ อนุมัติ ปฏิเสธ ยกเลิก และ Preview
   ตรวจเวลาทับซ้อนกับเวลาพักขั้นต่ำก่อนอนุมัติ
+- กฎเวรส่วนกลาง: เวรซ้ำ เวลาทับซ้อน ชั่วโมงพัก ชั่วโมงต่อเนื่อง
+  และจำนวนเวรสูงสุดต่อวัน/สัปดาห์/เดือน โดยกำหนดค่าได้ใน Settings
+- คำนวณค่าตอบแทนพื้นฐาน OT และวันหยุดจากเวรที่อนุมัติ
+- Google Calendar Preview/Sync รายบุคคล รองรับ Create/Update/Delete
+  และใช้รหัสกำกับรายการเพื่อซิงค์ซ้ำโดยไม่สร้างเวรซ้ำ
 - ธีม System/Light/Dark และ UI แบบ responsive
 
-กฎตรวจเวรชนกัน การจำกัดชั่วโมง/จำนวนเวร การจัดเวรอัตโนมัติ
-สิทธิ์ผู้อนุมัติและการแจ้งเตือน OT/Payroll การนำเข้า Excel แบบเต็มรูปแบบ
-และ Google Calendar Sync ยังอยู่ในแผนพัฒนาระยะถัดไป ดูรายละเอียดใน
-[Roadmap](docs/ROADMAP.md)
+การจัดเวรอัตโนมัติ สิทธิ์ผู้อนุมัติ/การแจ้งเตือน การส่งออก Payroll
+การนำเข้า Excel เป็นตารางเวรเต็มรูปแบบ และประวัติ/Retry ของ Calendar
+ยังอยู่ในแผนพัฒนาระยะถัดไป ดูรายละเอียดใน [Roadmap](docs/ROADMAP.md)
 
 ## ตั้งค่า Google Sign-In และ Google Drive
 
@@ -47,7 +51,8 @@ Android, iOS, Windows, macOS และ Linux พร้อม UI ภาษาไ�
 
 1. สร้างหรือเลือกโปรเจกต์ใน Google Cloud Console
 2. ตั้งค่า OAuth consent screen
-3. เปิดใช้งาน **Google Drive API** และ **Google Sheets API**
+3. เปิดใช้งาน **Google Drive API**, **Google Sheets API** และ
+   **Google Calendar API**
 4. สร้าง OAuth Client ID ชนิด **Web application**
 5. เพิ่ม Authorized JavaScript origin:
    `https://phakphoum38-stack.github.io`
@@ -56,6 +61,16 @@ Android, iOS, Windows, macOS และ Linux พร้อม UI ภาษาไ�
    `123456789-xxxx.apps.googleusercontent.com`
 8. กดบันทึก โหลดหน้าเว็บใหม่ แล้วไปหน้า **Roster > Google Drive**
 9. กดปุ่มลงชื่อเข้าใช้ด้วย Google
+
+เมื่อเพิ่มสิทธิ์ Calendar เป็นครั้งแรก ผู้ใช้เดิมต้องออกจากระบบแล้ว
+ลงชื่อเข้าใช้อีกครั้งเพื่อยืนยันสิทธิ์ใหม่
+
+## OpenAI API
+
+ไฟล์ Web บน GitHub Pages จะไม่เรียก OpenAI API ด้วยคีย์โดยตรง เพราะผู้ใช้
+สามารถอ่านคีย์ที่ฝังใน JavaScript ได้ คีย์ใน `.env.local` ใช้เฉพาะการพัฒนา
+บนเครื่องและถูกกันออกจาก Git แล้ว การเปิดใช้คำสั่ง AI ใน production
+ต้องวาง backend proxy ที่เก็บ `OPENAI_API_KEY` เป็น secret ก่อน
 
 ห้าม commit Client Secret, service-account key, token, ข้อมูลตารางเวรจริง
 หรือข้อมูลส่วนบุคคลลง repository

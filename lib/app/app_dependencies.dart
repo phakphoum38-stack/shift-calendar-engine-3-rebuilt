@@ -5,6 +5,8 @@ import '../domain/repositories/employee_repository.dart';
 import '../domain/repositories/shift_template_repository.dart';
 import '../domain/repositories/exchange_repository.dart';
 import '../features/dashboard/application/dashboard_summary_service.dart';
+import '../features/calendar_sync/application/calendar_sync_controller.dart';
+import '../features/calendar_sync/infrastructure/google_calendar_sync_gateway.dart';
 import '../features/exchange/application/exchange_controller.dart';
 import '../features/exchange/infrastructure/shared_preferences_exchange_repository.dart';
 import '../features/foundation/infrastructure/memory_schedule_repository.dart';
@@ -121,6 +123,13 @@ class AppDependencies {
     );
     controller.initializeGoogle(webClientId);
     return controller;
+  }
+
+  CalendarSyncController createCalendarSyncController(Schedule schedule) {
+    return CalendarSyncController(
+      gateway: GoogleCalendarSyncGateway(googleAuthController),
+      schedule: schedule,
+    );
   }
 
   EmployeeDirectoryController createEmployeeDirectoryController(

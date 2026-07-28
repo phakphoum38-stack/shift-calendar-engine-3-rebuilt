@@ -562,4 +562,63 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get remoteOnlyRows => 'แถวเฉพาะ Google Sheets';
+
+  @override
+  String get rosterRules => 'กฎและนโยบายตารางเวร';
+
+  @override
+  String get rosterRulesDescription =>
+      'กำหนดขีดจำกัดที่ใช้ร่วมกันตอนบันทึกเวร อนุมัติแลกเวร นำเข้า และคำนวณค่าตอบแทน';
+
+  @override
+  String get minimumRestHours => 'ชั่วโมงพักขั้นต่ำ';
+
+  @override
+  String get maximumContinuousHours => 'ชั่วโมงทำงานต่อเนื่องสูงสุด';
+
+  @override
+  String get maximumShiftsPerDay => 'จำนวนเวรสูงสุดต่อวัน';
+
+  @override
+  String get maximumShiftsPerWeek => 'จำนวนเวรสูงสุดต่อสัปดาห์';
+
+  @override
+  String get maximumShiftsPerMonth => 'จำนวนเวรสูงสุดต่อเดือน';
+
+  @override
+  String get blockOverlappingShifts => 'ห้ามเวรเวลาทับซ้อน';
+
+  @override
+  String get requireExchangeApproval => 'การแลกเวรต้องได้รับอนุมัติ';
+
+  @override
+  String get estimatedOvertime => 'OT โดยประมาณ';
+
+  @override
+  String get googleCalendarSync => 'ซิงค์ Google Calendar';
+
+  @override
+  String get googleCalendarSyncDescription =>
+      'ตรวจตัวอย่างก่อน แล้วซิงค์เฉพาะเวรที่อนุมัติของบุคลากรที่เลือกลงปฏิทินหลักโดยไม่สร้างรายการซ้ำ';
+
+  @override
+  String get calendarEmployee => 'บุคลากร';
+
+  @override
+  String get previewCalendarSync => 'ดูตัวอย่างการซิงค์';
+
+  @override
+  String get syncCalendar => 'ซิงค์ปฏิทิน';
+
+  @override
+  String get calendarCreate => 'สร้าง';
+
+  @override
+  String get calendarUpdate => 'อัปเดต';
+
+  @override
+  String get calendarDelete => 'ลบ';
+
+  @override
+  String get calendarUnchanged => 'ไม่เปลี่ยนแปลง';
 }

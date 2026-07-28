@@ -19,6 +19,7 @@ void main() {
     expect(summary.tomorrowAssignments, isEmpty);
     expect(summary.monthlyAssignmentCount, 1);
     expect(summary.estimatedIncome, 600);
+    expect(summary.estimatedOvertime, 0);
     expect(schedule.assignments, before);
   });
 
@@ -52,6 +53,7 @@ void main() {
     expect(summary.todayAssignments, hasLength(1));
     expect(summary.tomorrowAssignments, hasLength(1));
     expect(summary.monthlyAssignmentCount, 1);
-    expect(summary.estimatedIncome, assignment.shift.rate);
+    expect(summary.estimatedIncome, 1350);
+    expect(summary.estimatedOvertime, 450);
   });
 }

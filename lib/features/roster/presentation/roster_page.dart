@@ -8,6 +8,8 @@ import '../application/roster_controller.dart';
 import '../application/roster_editor_controller.dart';
 import '../application/drive_roster_source_controller.dart';
 import '../../exchange/application/exchange_controller.dart';
+import '../../calendar_sync/application/calendar_sync_controller.dart';
+import '../../calendar_sync/presentation/calendar_sync_panel.dart';
 import 'google_drive_source_panel.dart';
 import 'roster_editor_page.dart';
 
@@ -18,6 +20,7 @@ class RosterPage extends StatefulWidget {
     required this.controllerFactory,
     required this.editorControllerFactory,
     required this.driveSourceControllerFactory,
+    required this.calendarSyncControllerFactory,
     required this.exchangeControllerFactory,
     required this.googleWebClientId,
     required this.onScheduleSaved,
@@ -29,6 +32,7 @@ class RosterPage extends StatefulWidget {
   final RosterEditorController Function(Schedule) editorControllerFactory;
   final DriveRosterSourceController Function(String)
   driveSourceControllerFactory;
+  final CalendarSyncController Function(Schedule) calendarSyncControllerFactory;
   final ExchangeController Function(Schedule) exchangeControllerFactory;
   final String googleWebClientId;
   final ValueChanged<Schedule> onScheduleSaved;
@@ -45,12 +49,15 @@ class _RosterPageState extends State<RosterPage> {
       .driveSourceControllerFactory(widget.googleWebClientId);
   late final ExchangeController exchangeController = widget
       .exchangeControllerFactory(widget.schedule);
+  late final CalendarSyncController calendarSyncController = widget
+      .calendarSyncControllerFactory(widget.schedule);
 
   @override
   void didUpdateWidget(covariant RosterPage oldWidget) {
     super.didUpdateWidget(oldWidget);
     controller.updateSchedule(widget.schedule);
     exchangeController.updateSchedule(widget.schedule);
+    calendarSyncController.updateSchedule(widget.schedule);
   }
 
   @override
@@ -58,6 +65,7 @@ class _RosterPageState extends State<RosterPage> {
     controller.dispose();
     driveSourceController.dispose();
     exchangeController.dispose();
+    calendarSyncController.dispose();
     super.dispose();
   }
 
@@ -167,6 +175,8 @@ class _RosterPageState extends State<RosterPage> {
             controller: driveSourceController,
             exchangeController: exchangeController,
           ),
+          const SizedBox(height: 20),
+          CalendarSyncPanel(controller: calendarSyncController),
         ],
       );
     },

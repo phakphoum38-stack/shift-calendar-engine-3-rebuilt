@@ -5,11 +5,13 @@ import '../../../domain/entities/employee.dart';
 import '../../../domain/entities/exchange_request.dart';
 import '../../../domain/entities/schedule.dart';
 import '../../../domain/entities/shift_assignment.dart';
+import '../../../domain/entities/roster_policy.dart';
 import '../../../domain/repositories/exchange_repository.dart';
 import '../../../domain/repositories/employee_repository.dart';
 import '../../../domain/repositories/schedule_repository.dart';
 import '../domain/exchange_conflict.dart';
 import 'exchange_rule_service.dart';
+import '../../rules/application/roster_conflict_engine.dart';
 
 class ExchangeController extends ChangeNotifier {
   ExchangeController({
@@ -18,6 +20,7 @@ class ExchangeController extends ChangeNotifier {
     required this.scheduleRepository,
     required this.schedule,
     this.rules = const ExchangeRuleService(),
+    this.conflictEngine = const RosterConflictEngine(),
     DateTime Function()? clock,
   }) : _clock = clock ?? DateTime.now;
 
@@ -25,9 +28,11 @@ class ExchangeController extends ChangeNotifier {
   final EmployeeRepository employeeRepository;
   final ScheduleRepository scheduleRepository;
   final ExchangeRuleService rules;
+  final RosterConflictEngine conflictEngine;
   final DateTime Function() _clock;
 
   Schedule schedule;
+  RosterPolicy _policy = const RosterPolicy();
   List<ExchangeRequest> _requests = const [];
   List<Employee> _employees = const [];
   bool _loading = false;
@@ -42,6 +47,10 @@ class ExchangeController extends ChangeNotifier {
     if (identical(schedule, value)) return;
     schedule = value;
     notifyListeners();
+  }
+
+  void updatePolicy(RosterPolicy value) {
+    _policy = value;
   }
 
   Future<void> load() async {
@@ -161,6 +170,24 @@ class ExchangeController extends ChangeNotifier {
             ignoredAssignmentId: request.sourceAssignmentId,
           ),
         );
+      }
+    }
+    final updated = _apply(request);
+    if (updated != null) {
+      for (final conflict in conflictEngine.evaluate(updated, _policy)) {
+        if (conflict.assignmentIds.contains(request.sourceAssignmentId) ||
+            (request.offeredAssignmentId != null &&
+                conflict.assignmentIds.contains(request.offeredAssignmentId))) {
+          result.add(
+            ExchangeConflict(
+              code: conflict.code,
+              severity: conflict.blocksSave
+                  ? ExchangeConflictSeverity.error
+                  : ExchangeConflictSeverity.warning,
+              message: conflict.message,
+            ),
+          );
+        }
       }
     }
     return List.unmodifiable(result);

@@ -7,10 +7,13 @@ import '../../../domain/entities/schedule_day.dart';
 import '../../../domain/entities/schedule_month.dart';
 import '../../../domain/entities/shift_assignment.dart';
 import '../../../domain/entities/shift_template.dart';
+import '../../../domain/entities/roster_policy.dart';
 import '../../../domain/repositories/employee_repository.dart';
 import '../../../domain/repositories/schedule_repository.dart';
 import '../../../domain/repositories/shift_template_repository.dart';
 import 'schedule_merge_service.dart';
+import '../../rules/application/roster_conflict_engine.dart';
+import '../../rules/domain/roster_conflict.dart';
 
 /// Owns explicit canonical roster mutations and persistence.
 class RosterEditorController extends ChangeNotifier {
@@ -20,14 +23,17 @@ class RosterEditorController extends ChangeNotifier {
     required this.shiftTemplateRepository,
     required this.schedule,
     this.mergeService = const ScheduleMergeService(),
+    this.conflictEngine = const RosterConflictEngine(),
   });
 
   final ScheduleRepository scheduleRepository;
   final EmployeeRepository employeeRepository;
   final ShiftTemplateRepository shiftTemplateRepository;
   final ScheduleMergeService mergeService;
+  final RosterConflictEngine conflictEngine;
 
   Schedule schedule;
+  RosterPolicy _policy = const RosterPolicy();
   List<Employee> _employees = const [];
   List<ShiftTemplate> _shifts = const [];
   bool _loading = false;
@@ -37,6 +43,12 @@ class RosterEditorController extends ChangeNotifier {
   List<ShiftTemplate> get shifts => _shifts;
   bool get loading => _loading;
   String? get error => _error;
+  List<RosterConflict> get conflicts =>
+      conflictEngine.evaluate(schedule, _policy);
+
+  void updatePolicy(RosterPolicy policy) {
+    _policy = policy;
+  }
 
   Future<void> loadCatalogs() async {
     if (_loading) return;
@@ -138,6 +150,12 @@ class RosterEditorController extends ChangeNotifier {
   }
 
   Future<bool> save() async {
+    final blocking = conflicts.where((value) => value.blocksSave).toList();
+    if (blocking.isNotEmpty) {
+      _error = blocking.first.message;
+      notifyListeners();
+      return false;
+    }
     _setLoading();
     final result = await scheduleRepository.save(schedule);
     if (result case Success<Schedule>(value: final value)) {

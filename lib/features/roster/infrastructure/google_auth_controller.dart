@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:googleapis/sheets/v4.dart' as sheets;
+import 'package:googleapis/calendar/v3.dart' as calendar;
 
 import 'google_api_client.dart';
 
@@ -11,6 +12,7 @@ class GoogleAuthController extends ChangeNotifier {
   static const scopes = <String>[
     drive.DriveApi.driveMetadataReadonlyScope,
     sheets.SheetsApi.spreadsheetsReadonlyScope,
+    calendar.CalendarApi.calendarEventsScope,
   ];
 
   GoogleSignInAccount? account;

@@ -563,4 +563,63 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get remoteOnlyRows => 'Sheet-only rows';
+
+  @override
+  String get rosterRules => 'Roster rules and policy';
+
+  @override
+  String get rosterRulesDescription =>
+      'Configure validation limits used by roster saves, exchange approval, imports, and payroll.';
+
+  @override
+  String get minimumRestHours => 'Minimum rest hours';
+
+  @override
+  String get maximumContinuousHours => 'Maximum continuous hours';
+
+  @override
+  String get maximumShiftsPerDay => 'Maximum shifts per day';
+
+  @override
+  String get maximumShiftsPerWeek => 'Maximum shifts per week';
+
+  @override
+  String get maximumShiftsPerMonth => 'Maximum shifts per month';
+
+  @override
+  String get blockOverlappingShifts => 'Block overlapping shifts';
+
+  @override
+  String get requireExchangeApproval => 'Require exchange approval';
+
+  @override
+  String get estimatedOvertime => 'Estimated OT';
+
+  @override
+  String get googleCalendarSync => 'Google Calendar sync';
+
+  @override
+  String get googleCalendarSyncDescription =>
+      'Preview changes for the selected employee, then sync approved shifts to the primary calendar without creating duplicates.';
+
+  @override
+  String get calendarEmployee => 'Employee';
+
+  @override
+  String get previewCalendarSync => 'Preview sync';
+
+  @override
+  String get syncCalendar => 'Sync calendar';
+
+  @override
+  String get calendarCreate => 'Create';
+
+  @override
+  String get calendarUpdate => 'Update';
+
+  @override
+  String get calendarDelete => 'Delete';
+
+  @override
+  String get calendarUnchanged => 'No change';
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/app_settings.dart';
+import '../../../domain/entities/roster_policy.dart';
 import '../../../l10n/l10n.dart';
 
 /// Functional language, theme, and demo-mode settings.
@@ -87,6 +88,8 @@ class SettingsPage extends StatelessWidget {
         ),
       ),
       const SizedBox(height: 16),
+      _PolicySettingsCard(settings: settings, onChanged: onChanged),
+      const SizedBox(height: 16),
       Card(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -147,6 +150,125 @@ class SettingsPage extends StatelessWidget {
           title: Text(context.l10n.phaseStatus),
           subtitle: Text(context.l10n.phaseStatusDescription),
         ),
+      ),
+    ],
+  );
+}
+
+class _PolicySettingsCard extends StatelessWidget {
+  const _PolicySettingsCard({required this.settings, required this.onChanged});
+
+  final AppSettings settings;
+  final ValueChanged<AppSettings> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final policy = settings.rosterPolicy;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              context.l10n.rosterRules,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 6),
+            Text(context.l10n.rosterRulesDescription),
+            const SizedBox(height: 12),
+            _RuleSlider(
+              label: context.l10n.minimumRestHours,
+              value: policy.minimumRestHours,
+              min: 0,
+              max: 24,
+              onChanged: (value) =>
+                  _save(policy.copyWith(minimumRestHours: value)),
+            ),
+            _RuleSlider(
+              label: context.l10n.maximumContinuousHours,
+              value: policy.maximumContinuousHours,
+              min: 1,
+              max: 24,
+              onChanged: (value) =>
+                  _save(policy.copyWith(maximumContinuousHours: value)),
+            ),
+            _RuleSlider(
+              label: context.l10n.maximumShiftsPerDay,
+              value: policy.maximumShiftsPerDay,
+              min: 1,
+              max: 6,
+              onChanged: (value) =>
+                  _save(policy.copyWith(maximumShiftsPerDay: value)),
+            ),
+            _RuleSlider(
+              label: context.l10n.maximumShiftsPerWeek,
+              value: policy.maximumShiftsPerWeek,
+              min: 1,
+              max: 21,
+              onChanged: (value) =>
+                  _save(policy.copyWith(maximumShiftsPerWeek: value)),
+            ),
+            _RuleSlider(
+              label: context.l10n.maximumShiftsPerMonth,
+              value: policy.maximumShiftsPerMonth,
+              min: 1,
+              max: 62,
+              onChanged: (value) =>
+                  _save(policy.copyWith(maximumShiftsPerMonth: value)),
+            ),
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(context.l10n.blockOverlappingShifts),
+              value: policy.blockOverlappingShifts,
+              onChanged: (value) =>
+                  _save(policy.copyWith(blockOverlappingShifts: value)),
+            ),
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(context.l10n.requireExchangeApproval),
+              value: policy.requireExchangeApproval,
+              onChanged: (value) =>
+                  _save(policy.copyWith(requireExchangeApproval: value)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _save(RosterPolicy policy) {
+    onChanged(settings.copyWith(rosterPolicy: policy));
+  }
+}
+
+class _RuleSlider extends StatelessWidget {
+  const _RuleSlider({
+    required this.label,
+    required this.value,
+    required this.min,
+    required this.max,
+    required this.onChanged,
+  });
+
+  final String label;
+  final int value;
+  final int min;
+  final int max;
+  final ValueChanged<int> onChanged;
+
+  @override
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text('$label: $value'),
+      Slider(
+        value: value.clamp(min, max).toDouble(),
+        min: min.toDouble(),
+        max: max.toDouble(),
+        divisions: max - min,
+        label: '$value',
+        onChanged: (value) => onChanged(value.round()),
       ),
     ],
   );

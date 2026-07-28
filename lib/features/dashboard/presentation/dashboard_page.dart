@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../domain/entities/schedule.dart';
 import '../../../l10n/l10n.dart';
 import '../application/dashboard_summary_service.dart';
+import '../../../domain/entities/roster_policy.dart';
 
 /// Responsive daily and monthly operational overview.
 class DashboardPage extends StatelessWidget {
@@ -10,16 +11,22 @@ class DashboardPage extends StatelessWidget {
     required this.schedule,
     required this.summaryService,
     required this.openRoster,
+    required this.policy,
     super.key,
   });
 
   final Schedule schedule;
   final DashboardSummaryService summaryService;
   final VoidCallback openRoster;
+  final RosterPolicy policy;
 
   @override
   Widget build(BuildContext context) {
-    final summary = summaryService.build(schedule, DateTime.now());
+    final summary = summaryService.build(
+      schedule,
+      DateTime.now(),
+      policy: policy,
+    );
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
@@ -57,6 +64,11 @@ class DashboardPage extends StatelessWidget {
               icon: Icons.payments_outlined,
               label: context.l10n.estimatedIncome,
               value: summary.estimatedIncome.toStringAsFixed(0),
+            ),
+            _MetricCard(
+              icon: Icons.more_time_outlined,
+              label: context.l10n.estimatedOvertime,
+              value: summary.estimatedOvertime.toStringAsFixed(0),
             ),
           ],
         ),
