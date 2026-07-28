@@ -40,7 +40,7 @@ class AppShell extends StatefulWidget {
   final RosterController Function(Schedule schedule) rosterControllerFactory;
   final RosterEditorController Function(Schedule schedule)
   rosterEditorControllerFactory;
-  final DriveRosterSourceController Function()
+  final DriveRosterSourceController Function(String webClientId)
   driveRosterSourceControllerFactory;
   final EmployeeDirectoryController Function(Schedule schedule)
   employeeDirectoryControllerFactory;
@@ -97,6 +97,7 @@ class _AppShellState extends State<AppShell> {
         controllerFactory: widget.rosterControllerFactory,
         editorControllerFactory: widget.rosterEditorControllerFactory,
         driveSourceControllerFactory: widget.driveRosterSourceControllerFactory,
+        googleWebClientId: widget.controller.settings.googleWebClientId,
         onScheduleSaved: widget.controller.adoptSchedule,
       ),
       EmployeesPage(

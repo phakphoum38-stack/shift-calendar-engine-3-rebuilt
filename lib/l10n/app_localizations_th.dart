@@ -315,6 +315,30 @@ class AppLocalizationsTh extends AppLocalizations {
   String get googleDrive => 'Google Drive';
 
   @override
+  String get googleOAuthSettings => 'การเชื่อมต่อ Google';
+
+  @override
+  String get googleOAuthSettingsDescription =>
+      'ใส่ Web OAuth Client ID แล้วโหลดหน้าเว็บใหม่เพื่อเปิดปุ่มลงชื่อเข้าใช้ Google';
+
+  @override
+  String get googleWebClientId => 'Web OAuth Client ID';
+
+  @override
+  String get invalidGoogleWebClientId =>
+      'รูปแบบ Web OAuth Client ID ไม่ถูกต้อง';
+
+  @override
+  String get googleOAuthSaved =>
+      'บันทึก Google OAuth แล้ว กรุณาโหลดหน้าเว็บใหม่';
+
+  @override
+  String get signInWithGoogle => 'ลงชื่อเข้าใช้ด้วย Google';
+
+  @override
+  String get signOutGoogle => 'ออกจากระบบ Google';
+
+  @override
   String get googleDriveDescription =>
       'เลือกไฟล์ต้นทางของตารางเวรจาก Google Drive';
 

@@ -17,6 +17,7 @@ class RosterPage extends StatefulWidget {
     required this.controllerFactory,
     required this.editorControllerFactory,
     required this.driveSourceControllerFactory,
+    required this.googleWebClientId,
     required this.onScheduleSaved,
     super.key,
   });
@@ -24,7 +25,9 @@ class RosterPage extends StatefulWidget {
   final Schedule schedule;
   final RosterController Function(Schedule) controllerFactory;
   final RosterEditorController Function(Schedule) editorControllerFactory;
-  final DriveRosterSourceController Function() driveSourceControllerFactory;
+  final DriveRosterSourceController Function(String)
+  driveSourceControllerFactory;
+  final String googleWebClientId;
   final ValueChanged<Schedule> onScheduleSaved;
 
   @override
@@ -36,7 +39,7 @@ class _RosterPageState extends State<RosterPage> {
     widget.schedule,
   );
   late final DriveRosterSourceController driveSourceController = widget
-      .driveSourceControllerFactory();
+      .driveSourceControllerFactory(widget.googleWebClientId);
 
   @override
   void didUpdateWidget(covariant RosterPage oldWidget) {

@@ -317,6 +317,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get googleDrive => 'Google Drive';
 
   @override
+  String get googleOAuthSettings => 'Google connection';
+
+  @override
+  String get googleOAuthSettingsDescription =>
+      'Enter a Web OAuth Client ID, then reload the page to enable Google sign-in.';
+
+  @override
+  String get googleWebClientId => 'Web OAuth Client ID';
+
+  @override
+  String get invalidGoogleWebClientId =>
+      'The Web OAuth Client ID format is invalid.';
+
+  @override
+  String get googleOAuthSaved => 'Google OAuth was saved. Reload the page.';
+
+  @override
+  String get signInWithGoogle => 'Sign in with Google';
+
+  @override
+  String get signOutGoogle => 'Sign out of Google';
+
+  @override
   String get googleDriveDescription =>
       'Choose the roster source to load from Google Drive.';
 

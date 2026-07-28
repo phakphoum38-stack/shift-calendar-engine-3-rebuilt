@@ -698,6 +698,48 @@ abstract class AppLocalizations {
   /// **'Google Drive'**
   String get googleDrive;
 
+  /// No description provided for @googleOAuthSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Google connection'**
+  String get googleOAuthSettings;
+
+  /// No description provided for @googleOAuthSettingsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a Web OAuth Client ID, then reload the page to enable Google sign-in.'**
+  String get googleOAuthSettingsDescription;
+
+  /// No description provided for @googleWebClientId.
+  ///
+  /// In en, this message translates to:
+  /// **'Web OAuth Client ID'**
+  String get googleWebClientId;
+
+  /// No description provided for @invalidGoogleWebClientId.
+  ///
+  /// In en, this message translates to:
+  /// **'The Web OAuth Client ID format is invalid.'**
+  String get invalidGoogleWebClientId;
+
+  /// No description provided for @googleOAuthSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Google OAuth was saved. Reload the page.'**
+  String get googleOAuthSaved;
+
+  /// No description provided for @signInWithGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Google'**
+  String get signInWithGoogle;
+
+  /// No description provided for @signOutGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out of Google'**
+  String get signOutGoogle;
+
   /// No description provided for @googleDriveDescription.
   ///
   /// In en, this message translates to:

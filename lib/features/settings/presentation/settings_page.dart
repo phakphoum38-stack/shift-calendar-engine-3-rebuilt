@@ -25,6 +25,8 @@ class SettingsPage extends StatelessWidget {
         style: Theme.of(context).textTheme.headlineMedium,
       ),
       const SizedBox(height: 16),
+      _GoogleOAuthSettingsCard(settings: settings, onChanged: onChanged),
+      const SizedBox(height: 16),
       Card(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -148,4 +150,83 @@ class SettingsPage extends StatelessWidget {
       ),
     ],
   );
+}
+
+class _GoogleOAuthSettingsCard extends StatefulWidget {
+  const _GoogleOAuthSettingsCard({
+    required this.settings,
+    required this.onChanged,
+  });
+
+  final AppSettings settings;
+  final ValueChanged<AppSettings> onChanged;
+
+  @override
+  State<_GoogleOAuthSettingsCard> createState() =>
+      _GoogleOAuthSettingsCardState();
+}
+
+class _GoogleOAuthSettingsCardState extends State<_GoogleOAuthSettingsCard> {
+  late final TextEditingController controller = TextEditingController(
+    text: widget.settings.googleWebClientId,
+  );
+  String? error;
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Card(
+    child: Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            context.l10n.googleOAuthSettings,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(height: 6),
+          Text(context.l10n.googleOAuthSettingsDescription),
+          const SizedBox(height: 12),
+          TextField(
+            controller: controller,
+            decoration: InputDecoration(
+              labelText: context.l10n.googleWebClientId,
+              hintText: '123456789-abc.apps.googleusercontent.com',
+              errorText: error,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Align(
+            alignment: Alignment.centerRight,
+            child: FilledButton.icon(
+              onPressed: _save,
+              icon: const Icon(Icons.save_outlined),
+              label: Text(context.l10n.save),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+
+  void _save() {
+    final value = controller.text.trim();
+    if (value.isNotEmpty &&
+        !RegExp(
+          r'^[0-9]+-[a-zA-Z0-9_-]+\.apps\.googleusercontent\.com$',
+        ).hasMatch(value)) {
+      setState(() => error = context.l10n.invalidGoogleWebClientId);
+      return;
+    }
+    setState(() => error = null);
+    widget.onChanged(widget.settings.copyWith(googleWebClientId: value));
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(context.l10n.googleOAuthSaved)));
+  }
 }

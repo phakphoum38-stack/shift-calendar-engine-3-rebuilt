@@ -62,7 +62,7 @@ void main() {
   testWidgets('settings can enable deterministic demo schedule', (
     tester,
   ) async {
-    tester.view.physicalSize = const Size(430, 900);
+    tester.view.physicalSize = const Size(430, 2000);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);

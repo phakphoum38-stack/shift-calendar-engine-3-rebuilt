@@ -14,6 +14,8 @@ import '../features/roster/application/roster_controller.dart';
 import '../features/roster/application/roster_editor_controller.dart';
 import '../features/roster/application/drive_roster_source_controller.dart';
 import '../features/roster/application/drive_roster_source_gateway.dart';
+import '../features/roster/infrastructure/google_auth_controller.dart';
+import '../features/roster/infrastructure/google_drive_roster_source_gateway.dart';
 import '../features/reports/application/monthly_roster_report_mapper.dart';
 import '../features/reports/application/report_controller.dart';
 import '../features/reports/application/report_service.dart';
@@ -36,6 +38,7 @@ class AppDependencies {
     this.reportServiceOverride,
     ReportOutputGateway? reportOutputGateway,
     DriveRosterSourceGateway? driveRosterSourceGateway,
+    GoogleAuthController? googleAuthController,
     this.dashboardSummaryService = const DashboardSummaryService(),
   }) : scheduleRepository = scheduleRepository ?? MemoryScheduleRepository(),
        settingsRepository =
@@ -52,12 +55,18 @@ class AppDependencies {
            reportOutputGateway ?? const PrintingReportOutputGateway(),
        driveRosterSourceGateway =
            driveRosterSourceGateway ??
-           const UnconfiguredDriveRosterSourceGateway();
+           const UnconfiguredDriveRosterSourceGateway(),
+       googleAuthController = googleAuthController ?? GoogleAuthController();
 
   factory AppDependencies.production() {
+    final googleAuthController = GoogleAuthController();
     return AppDependencies(
       scheduleRepository: SharedPreferencesScheduleRepository(),
       settingsRepository: SharedPreferencesSettingsRepository(),
+      googleAuthController: googleAuthController,
+      driveRosterSourceGateway: GoogleDriveRosterSourceGateway(
+        googleAuthController,
+      ),
     );
   }
 
@@ -69,6 +78,7 @@ class AppDependencies {
   final MonthlyRosterReportMapper monthlyRosterReportMapper;
   final ReportOutputGateway reportOutputGateway;
   final DriveRosterSourceGateway driveRosterSourceGateway;
+  final GoogleAuthController googleAuthController;
   final MonthlyRosterReportService? reportServiceOverride;
 
   MonthlyRosterReportService get monthlyRosterReportService =>
@@ -95,8 +105,15 @@ class AppDependencies {
     );
   }
 
-  DriveRosterSourceController createDriveRosterSourceController() {
-    return DriveRosterSourceController(gateway: driveRosterSourceGateway);
+  DriveRosterSourceController createDriveRosterSourceController(
+    String webClientId,
+  ) {
+    final controller = DriveRosterSourceController(
+      gateway: driveRosterSourceGateway,
+      auth: googleAuthController,
+    );
+    controller.initializeGoogle(webClientId);
+    return controller;
   }
 
   EmployeeDirectoryController createEmployeeDirectoryController(

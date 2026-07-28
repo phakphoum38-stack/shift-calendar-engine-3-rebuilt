@@ -1,15 +1,18 @@
 import 'package:flutter/foundation.dart';
 
 import '../domain/drive_roster_source.dart';
+import '../infrastructure/google_auth_controller.dart';
 import 'drive_roster_source_gateway.dart';
 
 class DriveRosterSourceController extends ChangeNotifier {
   DriveRosterSourceController({
     required this.gateway,
+    required this.auth,
     this.selector = const DriveRosterSourceSelector(),
   });
 
   final DriveRosterSourceGateway gateway;
+  final GoogleAuthController auth;
   final DriveRosterSourceSelector selector;
 
   List<DriveRosterSource> _recentSources = const [];
@@ -25,6 +28,9 @@ class DriveRosterSourceController extends ChangeNotifier {
   SheetReadMode get readMode => _readMode;
   bool get loading => _loading;
   String? get errorCode => _errorCode;
+
+  Future<void> initializeGoogle(String webClientId) =>
+      auth.initialize(webClientId);
 
   Future<void> refresh() async {
     if (_loading) return;

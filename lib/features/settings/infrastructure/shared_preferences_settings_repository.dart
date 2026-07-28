@@ -27,6 +27,9 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
           locale: _locale(decoded['locale']),
           theme: _theme(decoded['theme']),
           logic: _logic(decoded['logic']),
+          googleWebClientId: decoded['googleWebClientId'] is String
+              ? (decoded['googleWebClientId'] as String).trim()
+              : '',
           demoMode: decoded['demoMode'] == true,
         ),
       );
@@ -48,6 +51,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
           'locale': settings.locale.name,
           'theme': settings.theme.name,
           'logic': settings.logic.name,
+          'googleWebClientId': settings.googleWebClientId.trim(),
           'demoMode': settings.demoMode,
         }),
       );

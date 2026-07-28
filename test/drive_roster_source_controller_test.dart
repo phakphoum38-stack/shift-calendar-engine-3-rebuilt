@@ -2,11 +2,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shift_calendar_engine/features/roster/application/drive_roster_source_controller.dart';
 import 'package:shift_calendar_engine/features/roster/application/drive_roster_source_gateway.dart';
 import 'package:shift_calendar_engine/features/roster/domain/drive_roster_source.dart';
+import 'package:shift_calendar_engine/features/roster/infrastructure/google_auth_controller.dart';
 
 void main() {
   test('loads the selected sheet with the selected read mode', () async {
     final gateway = _RecordingGateway();
-    final controller = DriveRosterSourceController(gateway: gateway);
+    final controller = DriveRosterSourceController(
+      gateway: gateway,
+      auth: GoogleAuthController(),
+    );
 
     await controller.refresh();
     controller.select(controller.recentSources.single);

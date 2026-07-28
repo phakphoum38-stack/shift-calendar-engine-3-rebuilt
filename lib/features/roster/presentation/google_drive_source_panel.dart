@@ -5,6 +5,7 @@ import '../../../l10n/l10n.dart';
 import '../../../l10n/localized_date_format.dart';
 import '../application/drive_roster_source_controller.dart';
 import '../domain/drive_roster_source.dart';
+import 'google_login_button.dart';
 
 class GoogleDriveSourcePanel extends StatelessWidget {
   const GoogleDriveSourcePanel({required this.controller, super.key});
@@ -13,7 +14,7 @@ class GoogleDriveSourcePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
-    listenable: controller,
+    listenable: Listenable.merge([controller, controller.auth]),
     builder: (context, _) {
       final l10n = context.l10n;
       return Card(
@@ -39,13 +40,48 @@ class GoogleDriveSourcePanel extends StatelessWidget {
                       Text(l10n.googleDriveDescription),
                     ],
                   ),
-                  OutlinedButton.icon(
-                    onPressed: controller.loading ? null : controller.refresh,
-                    icon: const Icon(Icons.add_to_drive_outlined),
-                    label: Text(l10n.openGoogleDrive),
-                  ),
+                  if (controller.auth.signedIn)
+                    Wrap(
+                      spacing: 8,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Text(controller.auth.account?.email ?? ''),
+                        OutlinedButton.icon(
+                          onPressed: controller.auth.signOut,
+                          icon: const Icon(Icons.logout),
+                          label: Text(l10n.signOutGoogle),
+                        ),
+                        FilledButton.icon(
+                          onPressed: controller.loading
+                              ? null
+                              : controller.refresh,
+                          icon: const Icon(Icons.add_to_drive_outlined),
+                          label: Text(l10n.openGoogleDrive),
+                        ),
+                      ],
+                    )
+                  else if (controller.auth.pluginReady)
+                    GoogleLoginButton(
+                      enabled: !controller.loading,
+                      onPressed: controller.auth.signIn,
+                    )
+                  else
+                    OutlinedButton.icon(
+                      onPressed: null,
+                      icon: const Icon(Icons.key_off_outlined),
+                      label: Text(l10n.signInWithGoogle),
+                    ),
                 ],
               ),
+              if (controller.auth.error != null) ...[
+                const SizedBox(height: 12),
+                Text(
+                  controller.auth.error == 'google_drive_not_configured'
+                      ? l10n.googleDriveNotConfigured
+                      : controller.auth.error!,
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              ],
               if (controller.loading) ...[
                 const SizedBox(height: 16),
                 const LinearProgressIndicator(),
