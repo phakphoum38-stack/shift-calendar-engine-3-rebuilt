@@ -46,24 +46,44 @@ Android, iOS, Windows, macOS และ Linux พร้อม UI ภาษาไ�
 
 ## ตั้งค่า Google Sign-In และ Google Drive
 
-โปรเจกต์ไม่เก็บ OAuth Client ID หรือ Secret ไว้ใน Source code
-ผู้ดูแลระบบต้องสร้าง Web OAuth client ของตนเอง:
+Web UI ใช้ OAuth Client ID ต่อไปนี้เป็นค่าเริ่มต้น:
 
-1. สร้างหรือเลือกโปรเจกต์ใน Google Cloud Console
+```text
+667656026445-pffm0rtkaiunhfujgfv52dlfb6pbtnm2.apps.googleusercontent.com
+```
+
+OAuth Client ID เป็นตัวระบุสาธารณะที่ฝังในเว็บได้ แต่โปรเจกต์จะไม่เก็บ
+Client Secret, access token หรือ refresh token ไว้ใน Source code
+
+การตั้งค่า Google Cloud สำหรับ Client ID นี้:
+
+1. เปิดโปรเจกต์ที่เป็นเจ้าของ Client ID ใน Google Cloud Console
 2. ตั้งค่า OAuth consent screen
 3. เปิดใช้งาน **Google Drive API**, **Google Sheets API** และ
    **Google Calendar API**
-4. สร้าง OAuth Client ID ชนิด **Web application**
-5. เพิ่ม Authorized JavaScript origin:
+4. ตรวจว่า OAuth Client ID เป็นชนิด **Web application**
+5. เพิ่มค่า **Authorized JavaScript origins** ต่อไปนี้:
    `https://phakphoum38-stack.github.io`
-6. เปิด Web UI แล้วไปที่ **Settings**
-7. กรอก Web OAuth Client ID รูปแบบ
-   `123456789-xxxx.apps.googleusercontent.com`
-8. กดบันทึก โหลดหน้าเว็บใหม่ แล้วไปหน้า **Roster > Google Drive**
-9. กดปุ่มลงชื่อเข้าใช้ด้วย Google
+6. หาก OAuth consent screen อยู่ในโหมด Testing ให้เพิ่มบัญชีที่จะใช้ใน
+   **Test users**
+7. เปิด Web UI แล้วไปหน้า **Roster > Google Drive**
+8. กดปุ่ม **Sign in with Google**
 
 เมื่อเพิ่มสิทธิ์ Calendar เป็นครั้งแรก ผู้ใช้เดิมต้องออกจากระบบแล้ว
 ลงชื่อเข้าใช้อีกครั้งเพื่อยืนยันสิทธิ์ใหม่
+
+### ปุ่ม Google ไม่แสดง
+
+1. ตรวจว่า Authorized JavaScript origin เป็น
+   `https://phakphoum38-stack.github.io` เท่านั้น ไม่ใส่ path
+   `/shift-calendar-engine-3-rebuilt/`
+2. หลังแก้ Google Cloud ให้กด Save และรอการตั้งค่าเผยแพร่ประมาณ 5 นาที
+3. เปิด [Web UI](https://phakphoum38-stack.github.io/shift-calendar-engine-3-rebuilt/)
+   ใหม่ หรือรีเฟรชแบบไม่ใช้ cache
+4. ไปที่ **Settings** และตรวจว่า Web OAuth Client ID ตรงกับค่าด้านบน
+5. กลับไปที่ **Roster** แล้วเลื่อนลงไปยังแผง **Google Drive**
+6. หากมีข้อความ `origin_mismatch` ให้ตรวจ Authorized JavaScript origin
+   อีกครั้ง หากมี `access_denied` ให้ตรวจ Test users และสถานะ consent screen
 
 ## OpenAI API
 
