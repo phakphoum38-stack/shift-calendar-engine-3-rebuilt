@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 
 import '../domain/drive_roster_source.dart';
 import '../infrastructure/google_auth_controller.dart';
+import '../infrastructure/local_roster_file_service.dart';
 import '../../exchange/application/exchange_controller.dart';
 import '../../../domain/entities/exchange_request.dart';
 import '../../../domain/entities/employee.dart';
@@ -13,11 +14,13 @@ class DriveRosterSourceController extends ChangeNotifier {
     required this.gateway,
     required this.auth,
     this.selector = const DriveRosterSourceSelector(),
+    this.localFileService = const LocalRosterFileService(),
   });
 
   final DriveRosterSourceGateway gateway;
   final GoogleAuthController auth;
   final DriveRosterSourceSelector selector;
+  final LocalRosterFileService localFileService;
 
   List<DriveRosterSource> _recentSources = const [];
   DriveRosterSource? _lastImported;
@@ -26,6 +29,8 @@ class DriveRosterSourceController extends ChangeNotifier {
   SheetTimelineData? _timeline;
   int _headerRowIndex = 0;
   Map<ExchangeSheetField, int?> _columnMapping = const {};
+  LocalRosterAttachment? _localAttachment;
+  RosterSourceComparison? _comparison;
   bool _loading = false;
   String? _errorCode;
 
@@ -36,6 +41,8 @@ class DriveRosterSourceController extends ChangeNotifier {
   SheetTimelineData? get timeline => _timeline;
   int get headerRowIndex => _headerRowIndex;
   Map<ExchangeSheetField, int?> get columnMapping => _columnMapping;
+  LocalRosterAttachment? get localAttachment => _localAttachment;
+  RosterSourceComparison? get comparison => _comparison;
   List<String> get timelineHeaders =>
       _timeline?.headersAt(_headerRowIndex) ?? const [];
   List<ExchangeTimelineRow> get mappedTimelineRows {
@@ -108,6 +115,7 @@ class DriveRosterSourceController extends ChangeNotifier {
       _timeline = await gateway.loadFirstTimeline(source);
       _headerRowIndex = 0;
       _columnMapping = _suggestMapping(timelineHeaders);
+      _compareAttached();
       return true;
     } on DriveRosterSourceException catch (error) {
       _errorCode = error.code;
@@ -119,6 +127,35 @@ class DriveRosterSourceController extends ChangeNotifier {
       _loading = false;
       notifyListeners();
     }
+  }
+
+  Future<bool> attachLocalOriginal() async {
+    if (_loading) return false;
+    _loading = true;
+    _errorCode = null;
+    notifyListeners();
+    try {
+      final attachment = await localFileService.pickAndRead();
+      if (attachment == null) return false;
+      _localAttachment = attachment;
+      _compareAttached();
+      return true;
+    } on FormatException {
+      _errorCode = 'local_roster_invalid';
+      return false;
+    } catch (_) {
+      _errorCode = 'local_roster_load_failed';
+      return false;
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+
+  void removeLocalAttachment() {
+    _localAttachment = null;
+    _comparison = null;
+    notifyListeners();
   }
 
   void selectHeaderRow(int index) {
@@ -327,5 +364,14 @@ class DriveRosterSourceController extends ChangeNotifier {
     _timeline = null;
     _headerRowIndex = 0;
     _columnMapping = const {};
+    _comparison = null;
+  }
+
+  void _compareAttached() {
+    final local = _localAttachment;
+    final remote = _timeline;
+    _comparison = local == null || remote == null
+        ? null
+        : localFileService.compare(local, remote);
   }
 }

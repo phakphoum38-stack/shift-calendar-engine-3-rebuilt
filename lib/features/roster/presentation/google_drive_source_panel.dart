@@ -152,17 +152,36 @@ class GoogleDriveSourcePanel extends StatelessWidget {
                     secondary: const Icon(Icons.description_outlined),
                   ),
               const SizedBox(height: 12),
-              Align(
-                alignment: Alignment.centerRight,
-                child: FilledButton.tonalIcon(
-                  onPressed:
-                      controller.selectedSource == null || controller.loading
-                      ? null
-                      : () => _loadTimeline(context),
-                  icon: const Icon(Icons.history_outlined),
-                  label: Text(l10n.loadFirstTimeline),
-                ),
+              Wrap(
+                alignment: WrapAlignment.end,
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  OutlinedButton.icon(
+                    onPressed: controller.loading
+                        ? null
+                        : () => _attachOriginal(context),
+                    icon: const Icon(Icons.attach_file),
+                    label: Text(l10n.attachOriginalFile),
+                  ),
+                  FilledButton.tonalIcon(
+                    onPressed:
+                        controller.selectedSource == null || controller.loading
+                        ? null
+                        : () => _loadTimeline(context),
+                    icon: const Icon(Icons.history_outlined),
+                    label: Text(l10n.loadFirstTimeline),
+                  ),
+                ],
               ),
+              if (controller.localAttachment case final attachment?) ...[
+                const SizedBox(height: 12),
+                _LocalAttachmentCard(
+                  attachment: attachment,
+                  comparison: controller.comparison,
+                  onRemove: controller.removeLocalAttachment,
+                ),
+              ],
               if (controller.timeline case final timeline?) ...[
                 const SizedBox(height: 16),
                 _TimelineMappingCard(
@@ -246,6 +265,82 @@ class GoogleDriveSourcePanel extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _attachOriginal(BuildContext context) async {
+    final attached = await controller.attachLocalOriginal();
+    if (!context.mounted || !attached) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(context.l10n.originalFileAttached)));
+  }
+}
+
+class _LocalAttachmentCard extends StatelessWidget {
+  const _LocalAttachmentCard({
+    required this.attachment,
+    required this.comparison,
+    required this.onRemove,
+  });
+
+  final LocalRosterAttachment attachment;
+  final RosterSourceComparison? comparison;
+  final VoidCallback onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final value = comparison;
+    return Card(
+      color: Theme.of(context).colorScheme.secondaryContainer,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.insert_drive_file_outlined),
+              title: Text(attachment.name),
+              subtitle: Text(
+                '${l10n.fileSize}: ${_formatBytes(attachment.size)} • '
+                '${l10n.rows}: ${attachment.rows.length}\n'
+                'SHA-256: ${attachment.sha256}',
+              ),
+              trailing: IconButton(
+                tooltip: l10n.removeAttachment,
+                onPressed: onRemove,
+                icon: const Icon(Icons.close),
+              ),
+            ),
+            if (value == null)
+              Text(l10n.loadTimelineToCompare)
+            else ...[
+              const Divider(),
+              Text(
+                value.exactMatch ? l10n.sourcesMatch : l10n.sourcesDifferent,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              const SizedBox(height: 6),
+              Text(
+                '${l10n.matchingCells}: ${value.matchingCells} • '
+                '${l10n.differentCells}: ${value.differentCells} • '
+                '${l10n.localOnlyRows}: ${value.localOnlyRows} • '
+                '${l10n.remoteOnlyRows}: ${value.remoteOnlyRows}',
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _formatBytes(int bytes) {
+    if (bytes >= 1024 * 1024) {
+      return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
+    }
+    if (bytes >= 1024) return '${(bytes / 1024).toStringAsFixed(1)} KB';
+    return '$bytes B';
   }
 }
 

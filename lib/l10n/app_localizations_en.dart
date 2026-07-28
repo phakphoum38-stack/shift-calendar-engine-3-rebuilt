@@ -526,4 +526,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String timelineImportResult(int created, int skipped) {
     return 'Created $created requests; skipped $skipped rows.';
   }
+
+  @override
+  String get attachOriginalFile => 'Attach original file';
+
+  @override
+  String get originalFileAttached => 'The original file was attached.';
+
+  @override
+  String get fileSize => 'Size';
+
+  @override
+  String get rows => 'Rows';
+
+  @override
+  String get removeAttachment => 'Remove attachment';
+
+  @override
+  String get loadTimelineToCompare =>
+      'Load the selected Sheet timeline to compare these sources.';
+
+  @override
+  String get sourcesMatch => 'The compared values match.';
+
+  @override
+  String get sourcesDifferent => 'The compared values are different.';
+
+  @override
+  String get matchingCells => 'Matching cells';
+
+  @override
+  String get differentCells => 'Different cells';
+
+  @override
+  String get localOnlyRows => 'Local-only rows';
+
+  @override
+  String get remoteOnlyRows => 'Sheet-only rows';
 }

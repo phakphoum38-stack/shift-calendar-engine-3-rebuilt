@@ -177,4 +177,16 @@
       "skipped": {"type": "int"}
     }
   }
+  ,"attachOriginalFile": "แนบไฟล์ต้นฉบับ"
+  ,"originalFileAttached": "แนบไฟล์ต้นฉบับแล้ว"
+  ,"fileSize": "ขนาด"
+  ,"rows": "จำนวนแถว"
+  ,"removeAttachment": "นำไฟล์แนบออก"
+  ,"loadTimelineToCompare": "ดึงไทม์ไลน์ของชีตที่เลือกเพื่อเปรียบเทียบข้อมูล"
+  ,"sourcesMatch": "ข้อมูลที่เปรียบเทียบตรงกัน"
+  ,"sourcesDifferent": "ข้อมูลที่เปรียบเทียบมีความแตกต่าง"
+  ,"matchingCells": "เซลล์ที่ตรงกัน"
+  ,"differentCells": "เซลล์ที่ต่างกัน"
+  ,"localOnlyRows": "แถวเฉพาะไฟล์ในเครื่อง"
+  ,"remoteOnlyRows": "แถวเฉพาะ Google Sheets"
 }

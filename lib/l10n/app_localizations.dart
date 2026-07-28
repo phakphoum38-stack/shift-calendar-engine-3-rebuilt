@@ -1093,6 +1093,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Created {created} requests; skipped {skipped} rows.'**
   String timelineImportResult(int created, int skipped);
+
+  /// No description provided for @attachOriginalFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach original file'**
+  String get attachOriginalFile;
+
+  /// No description provided for @originalFileAttached.
+  ///
+  /// In en, this message translates to:
+  /// **'The original file was attached.'**
+  String get originalFileAttached;
+
+  /// No description provided for @fileSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Size'**
+  String get fileSize;
+
+  /// No description provided for @rows.
+  ///
+  /// In en, this message translates to:
+  /// **'Rows'**
+  String get rows;
+
+  /// No description provided for @removeAttachment.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove attachment'**
+  String get removeAttachment;
+
+  /// No description provided for @loadTimelineToCompare.
+  ///
+  /// In en, this message translates to:
+  /// **'Load the selected Sheet timeline to compare these sources.'**
+  String get loadTimelineToCompare;
+
+  /// No description provided for @sourcesMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'The compared values match.'**
+  String get sourcesMatch;
+
+  /// No description provided for @sourcesDifferent.
+  ///
+  /// In en, this message translates to:
+  /// **'The compared values are different.'**
+  String get sourcesDifferent;
+
+  /// No description provided for @matchingCells.
+  ///
+  /// In en, this message translates to:
+  /// **'Matching cells'**
+  String get matchingCells;
+
+  /// No description provided for @differentCells.
+  ///
+  /// In en, this message translates to:
+  /// **'Different cells'**
+  String get differentCells;
+
+  /// No description provided for @localOnlyRows.
+  ///
+  /// In en, this message translates to:
+  /// **'Local-only rows'**
+  String get localOnlyRows;
+
+  /// No description provided for @remoteOnlyRows.
+  ///
+  /// In en, this message translates to:
+  /// **'Sheet-only rows'**
+  String get remoteOnlyRows;
 }
 
 class _AppLocalizationsDelegate

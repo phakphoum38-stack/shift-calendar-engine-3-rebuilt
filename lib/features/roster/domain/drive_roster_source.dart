@@ -71,6 +71,39 @@ class TimelineExchangeImportResult {
   final int skipped;
 }
 
+class LocalRosterAttachment {
+  LocalRosterAttachment({
+    required this.name,
+    required this.size,
+    required this.sha256,
+    required List<List<String>> rows,
+  }) : rows = List.unmodifiable(
+         rows.map((row) => List<String>.unmodifiable(row)),
+       );
+
+  final String name;
+  final int size;
+  final String sha256;
+  final List<List<String>> rows;
+}
+
+class RosterSourceComparison {
+  const RosterSourceComparison({
+    required this.matchingCells,
+    required this.differentCells,
+    required this.localOnlyRows,
+    required this.remoteOnlyRows,
+  });
+
+  final int matchingCells;
+  final int differentCells;
+  final int localOnlyRows;
+  final int remoteOnlyRows;
+
+  bool get exactMatch =>
+      differentCells == 0 && localOnlyRows == 0 && remoteOnlyRows == 0;
+}
+
 /// Keeps one deterministic source per month.
 ///
 /// When Drive contains several files for the same month, the earliest modified

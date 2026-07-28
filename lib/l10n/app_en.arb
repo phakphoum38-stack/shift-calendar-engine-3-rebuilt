@@ -177,4 +177,16 @@
       "skipped": {"type": "int"}
     }
   }
+  ,"attachOriginalFile": "Attach original file"
+  ,"originalFileAttached": "The original file was attached."
+  ,"fileSize": "Size"
+  ,"rows": "Rows"
+  ,"removeAttachment": "Remove attachment"
+  ,"loadTimelineToCompare": "Load the selected Sheet timeline to compare these sources."
+  ,"sourcesMatch": "The compared values match."
+  ,"sourcesDifferent": "The compared values are different."
+  ,"matchingCells": "Matching cells"
+  ,"differentCells": "Different cells"
+  ,"localOnlyRows": "Local-only rows"
+  ,"remoteOnlyRows": "Sheet-only rows"
 }

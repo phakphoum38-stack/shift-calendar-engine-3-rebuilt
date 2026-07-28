@@ -52,6 +52,8 @@ planned.
 - automatic Thai/English mapping suggestions
 - cover-request creation when giver, receiver, date, and shift match the
   canonical employee directory and roster unambiguously
+- in-memory CSV, TSV, and XLSX original-file attachment with SHA-256 metadata
+- cell and row comparison between the local original and selected Sheet
 
 Historical Google Sheets cell revisions, multi-tab selection, two-way swap
 pair import, full roster import/diff, and Excel import remain planned.

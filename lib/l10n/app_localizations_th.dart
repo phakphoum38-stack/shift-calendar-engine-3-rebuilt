@@ -525,4 +525,41 @@ class AppLocalizationsTh extends AppLocalizations {
   String timelineImportResult(int created, int skipped) {
     return 'สร้างคำขอ $created รายการ ข้าม $skipped แถว';
   }
+
+  @override
+  String get attachOriginalFile => 'แนบไฟล์ต้นฉบับ';
+
+  @override
+  String get originalFileAttached => 'แนบไฟล์ต้นฉบับแล้ว';
+
+  @override
+  String get fileSize => 'ขนาด';
+
+  @override
+  String get rows => 'จำนวนแถว';
+
+  @override
+  String get removeAttachment => 'นำไฟล์แนบออก';
+
+  @override
+  String get loadTimelineToCompare =>
+      'ดึงไทม์ไลน์ของชีตที่เลือกเพื่อเปรียบเทียบข้อมูล';
+
+  @override
+  String get sourcesMatch => 'ข้อมูลที่เปรียบเทียบตรงกัน';
+
+  @override
+  String get sourcesDifferent => 'ข้อมูลที่เปรียบเทียบมีความแตกต่าง';
+
+  @override
+  String get matchingCells => 'เซลล์ที่ตรงกัน';
+
+  @override
+  String get differentCells => 'เซลล์ที่ต่างกัน';
+
+  @override
+  String get localOnlyRows => 'แถวเฉพาะไฟล์ในเครื่อง';
+
+  @override
+  String get remoteOnlyRows => 'แถวเฉพาะ Google Sheets';
 }
