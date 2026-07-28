@@ -1,57 +1,86 @@
 # Shift Calendar Engine 3.0
 
-Clean-room, cross-platform Flutter implementation of a configurable roster
-system for workplaces, clinics, and hospitals.
+ระบบจัดตารางเวรบุคลากรแบบข้ามแพลตฟอร์ม พัฒนาด้วย Flutter รองรับ Web,
+Android, iOS, Windows, macOS และ Linux พร้อม UI ภาษาไทยและอังกฤษ
 
-Supported targets:
+## เปิดใช้งาน
 
-- Web
-- Android
-- iOS
-- Windows
-- macOS
-- Linux
+- [เปิด Web UI บน GitHub Pages](https://phakphoum38-stack.github.io/shift-calendar-engine-3-rebuilt/)
+- [ดู Source code บน GitHub](https://github.com/phakphoum38-stack/shift-calendar-engine-3-rebuilt)
 
-## Current milestone
+ข้อมูลที่บันทึกใน Web UI จะอยู่ในพื้นที่จัดเก็บของเบราว์เซอร์เครื่องนั้น
+การล้างข้อมูลเว็บไซต์หรือถอนการติดตั้งแอปอาจทำให้ข้อมูลสูญหาย
 
-Phase 0 foundation and the first Phase 2 vertical slice are operational:
+## ฟีเจอร์ที่พร้อมใช้งาน
 
-- canonical `Schedule` aggregate
-- explicit `AppDependencies` composition root
-- Material 3 responsive shell
-- Dashboard and monthly roster viewer
-- canonical employee directory projection
-- Thai and English localization
-- system/light/dark themes
-- deterministic opt-in Demo mode
-- atomic local persistence for the canonical schedule
-- persistent employee and configurable shift-template catalogs
-- canonical manual roster editing with preview and explicit save
-- format, analysis, test, security, and multi-platform build workflows
+- Dashboard สรุปเวรวันนี้ พรุ่งนี้ เวรรายเดือน และรายได้โดยประมาณ
+- จัดการพนักงาน: ค้นหา เพิ่ม แก้ไข และปิดใช้งาน
+- ป้องกันรหัสพนักงานซ้ำ
+- จัดการรูปแบบเวร: รหัส ชื่อ เวลาเริ่ม/สิ้นสุด ชั่วโมงทำงาน สี และค่าตอบแทน
+- เพิ่ม แก้ไข และลบเวรรายวัน พร้อม Preview และปุ่มบันทึกที่ชัดเจน
+- บันทึกตารางเวรแบบ versioned/atomic เพื่อเก็บข้อมูลสมบูรณ์ชุดล่าสุด
+- ตารางเวรรายเดือนและ Demo mode
+- รายงาน PDF A4 ภาษาไทย/อังกฤษ พร้อม Preview, Print และ Share
+- Google Sign-In และการเลือกไฟล์ Google Sheets จาก Google Drive
+- ธีม System/Light/Dark และ UI แบบ responsive
 
-Phase 2 is complete with a canonical monthly A4 report, Thai/English PDF
-rendering, preview, printing, and sharing.
+กฎตรวจเวรชนกัน การจำกัดชั่วโมง/จำนวนเวร การจัดเวรอัตโนมัติ
+ระบบแลกเวรและอนุมัติ OT/Payroll การนำเข้า Excel แบบเต็มรูปแบบ
+และ Google Calendar Sync ยังอยู่ในแผนพัฒนาระยะถัดไป ดูรายละเอียดใน
+[Roadmap](docs/ROADMAP.md)
 
-The repository is intentionally separate from the production
-`phakphum-calendar` migration. No legacy runtime was copied into this project.
+## ตั้งค่า Google Sign-In และ Google Drive
 
-## Run locally
+โปรเจกต์ไม่เก็บ OAuth Client ID หรือ Secret ไว้ใน Source code
+ผู้ดูแลระบบต้องสร้าง Web OAuth client ของตนเอง:
 
-Requirements:
+1. สร้างหรือเลือกโปรเจกต์ใน Google Cloud Console
+2. ตั้งค่า OAuth consent screen
+3. เปิดใช้งาน **Google Drive API** และ **Google Sheets API**
+4. สร้าง OAuth Client ID ชนิด **Web application**
+5. เพิ่ม Authorized JavaScript origin:
+   `https://phakphoum38-stack.github.io`
+6. เปิด Web UI แล้วไปที่ **Settings**
+7. กรอก Web OAuth Client ID รูปแบบ
+   `123456789-xxxx.apps.googleusercontent.com`
+8. กดบันทึก โหลดหน้าเว็บใหม่ แล้วไปหน้า **Roster > Google Drive**
+9. กดปุ่มลงชื่อเข้าใช้ด้วย Google
 
-- Flutter stable compatible with Dart 3.12 or newer
-- platform toolchain for the target being built
+ห้าม commit Client Secret, service-account key, token, ข้อมูลตารางเวรจริง
+หรือข้อมูลส่วนบุคคลลง repository
+
+## รันบนเครื่อง
+
+ต้องมี Flutter stable ที่รองรับ Dart 3.12 ขึ้นไป และ toolchain
+ของแพลตฟอร์มที่ต้องการรัน
 
 ```bash
+git clone https://github.com/phakphoum38-stack/shift-calendar-engine-3-rebuilt.git
+cd shift-calendar-engine-3-rebuilt
 flutter pub get
 flutter gen-l10n
+flutter run -d chrome
+```
+
+ตรวจสอบคุณภาพโค้ด:
+
+```bash
 dart format --output=none --set-exit-if-changed .
 flutter analyze
 flutter test
-flutter run
 ```
 
-## Architecture
+สร้าง Web release สำหรับ GitHub Pages:
+
+```bash
+flutter build web --release \
+  --base-href "/shift-calendar-engine-3-rebuilt/"
+```
+
+GitHub Actions จะ build และ deploy GitHub Pages อัตโนมัติเมื่อมีการ push
+เข้า branch `main`
+
+## โครงสร้างระบบ
 
 ```text
 Presentation
@@ -61,29 +90,22 @@ Application controllers and services
 Domain entities and repository contracts
     ↑
 Infrastructure repository implementations
-
-AppDependencies constructs the graph.
 ```
 
-The canonical `Schedule` is the only scheduling source of truth. Provider,
-import, report, and compatibility models must adapt at explicit boundaries.
+`Schedule` เป็นแหล่งข้อมูลตารางเวรหลักเพียงชุดเดียว และ
+`AppDependencies` ทำหน้าที่ประกอบ dependency ของแอป
 
-See:
+เอกสารเพิ่มเติม:
 
 - [Architecture](docs/ARCHITECTURE.md)
-- [Roadmap](docs/ROADMAP.md)
-- [Contributing](CONTRIBUTING.md)
-- [Testing](docs/TESTING.md)
 - [Installation](docs/INSTALLATION.md)
 - [User guide](docs/USER_GUIDE.md)
+- [Testing](docs/TESTING.md)
+- [Contributing](CONTRIBUTING.md)
 - [Security](SECURITY.md)
-
-## Repository safety
-
-Do not commit Google credentials, OAuth secrets, service-account files,
-calendar identifiers, personal roster data, or generated user reports.
 
 ## License
 
-No license has been selected yet. Source is publicly visible, but reuse rights
-remain reserved until an explicit license is added.
+ยังไม่ได้เลือก License สำหรับการนำ Source code ไปใช้ต่อ
+การที่ repository เปิดให้อ่านได้ไม่ได้หมายความว่าอนุญาตให้นำไปใช้
+ดัดแปลง หรือเผยแพร่โดยอัตโนมัติ
