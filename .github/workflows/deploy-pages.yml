@@ -36,7 +36,7 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Build Flutter Web
-        run: flutter build web --release --base-href "/shift-calendar-engine-3/"
+        run: flutter build web --release --base-href "/shift-calendar-engine-3-rebuilt/"
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v4
