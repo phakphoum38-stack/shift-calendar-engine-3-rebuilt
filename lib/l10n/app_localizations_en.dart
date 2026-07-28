@@ -138,6 +138,19 @@ class AppLocalizationsEn extends AppLocalizations {
       'Use deterministic sample data without external accounts.';
 
   @override
+  String get logicMode => 'Logic mode';
+
+  @override
+  String get logicModeDescription =>
+      'Use built-in rules or user-defined behavior for each feature.';
+
+  @override
+  String get standardLogic => 'Standard';
+
+  @override
+  String get freestyleLogic => 'Freestyle';
+
+  @override
   String get phaseStatus => 'SCE 3.0 foundation';
 
   @override
@@ -149,6 +162,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editEmployee => 'Edit employee';
+
+  @override
+  String get deactivateEmployee => 'Confirm employee deactivation';
 
   @override
   String get deactivate => 'Deactivate';
@@ -206,6 +222,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editShiftTemplate => 'Edit shift template';
 
   @override
+  String get deactivateShiftTemplate => 'Confirm shift-template deactivation';
+
+  @override
   String get shiftCode => 'Shift code';
 
   @override
@@ -224,10 +243,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rate => 'Rate';
 
   @override
+  String get shiftColor => 'Shift color';
+
+  @override
   String get manualRosterEditor => 'Manual roster editor';
 
   @override
   String get addAssignment => 'Add assignment';
+
+  @override
+  String get editAssignment => 'Edit assignment';
 
   @override
   String get selectDate => 'Select date';
@@ -245,6 +270,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get remark => 'Remark';
 
   @override
+  String get shiftCoverComment => 'Shift cover';
+
+  @override
+  String get shiftSwapComment => 'Shift swap';
+
+  @override
   String get previewChanges => 'Preview changes';
 
   @override
@@ -259,6 +290,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportMonth => 'Report month';
+
+  @override
+  String get reportLanguage => 'Report language';
 
   @override
   String get allDepartments => 'All departments';
@@ -314,4 +348,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get driveSourceLoaded => 'The current source was loaded.';
+
+  @override
+  String get sheetReadMode => 'Sheet reading mode';
+
+  @override
+  String get configuredSheetRead => 'Configured';
+
+  @override
+  String get standardSheetRead => 'Standard read';
+
+  @override
+  String get configuredSheetReadDescription =>
+      'Use configured columns and shift templates, including working hours, color, and rate.';
+
+  @override
+  String get standardSheetReadDescription =>
+      'Read the roster using the standard layout without custom configuration.';
 }

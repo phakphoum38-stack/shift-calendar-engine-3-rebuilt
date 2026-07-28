@@ -5,7 +5,10 @@ abstract interface class DriveRosterSourceGateway {
 
   Future<DriveRosterSource?> loadLastImported();
 
-  Future<void> loadSource(DriveRosterSource source);
+  Future<void> loadSource(
+    DriveRosterSource source, {
+    required SheetReadMode mode,
+  });
 }
 
 /// Safe production default until an OAuth-backed Drive adapter is configured.
@@ -21,8 +24,10 @@ class UnconfiguredDriveRosterSourceGateway implements DriveRosterSourceGateway {
       throw const DriveRosterSourceException('google_drive_not_configured');
 
   @override
-  Future<void> loadSource(DriveRosterSource source) =>
-      throw const DriveRosterSourceException('google_drive_not_configured');
+  Future<void> loadSource(
+    DriveRosterSource source, {
+    required SheetReadMode mode,
+  }) => throw const DriveRosterSourceException('google_drive_not_configured');
 }
 
 class DriveRosterSourceException implements Exception {

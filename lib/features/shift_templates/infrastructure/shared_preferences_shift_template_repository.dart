@@ -47,9 +47,16 @@ class SharedPreferencesShiftTemplateRepository
 
   @override
   Future<Result<ShiftTemplate>> save(ShiftTemplate template) async {
-    if (template.id.trim().isEmpty ||
-        template.code.trim().isEmpty ||
-        template.name.trim().isEmpty) {
+    final normalizedCode = template.code.trim();
+    final normalizedTemplate = template.copyWith(
+      code: normalizedCode,
+      name: template.name.trim(),
+    );
+    if (normalizedTemplate.id.trim().isEmpty ||
+        normalizedCode.isEmpty ||
+        normalizedTemplate.name.isEmpty ||
+        normalizedTemplate.workingHours < 0 ||
+        normalizedTemplate.rate < 0) {
       return const ValidationFailure('Shift template data is incomplete.');
     }
     final loaded = await _load();
@@ -61,23 +68,25 @@ class SharedPreferencesShiftTemplateRepository
     );
     if (values.any(
       (value) =>
-          value.id != template.id &&
-          value.code.toLowerCase() == template.code.toLowerCase(),
+          value.id != normalizedTemplate.id &&
+          value.code.trim().toLowerCase() == normalizedCode.toLowerCase(),
     )) {
       return const ValidationFailure(
         'Shift code is already in use.',
         fieldErrors: {'code': 'duplicate'},
       );
     }
-    final index = values.indexWhere((value) => value.id == template.id);
+    final index = values.indexWhere(
+      (value) => value.id == normalizedTemplate.id,
+    );
     if (index == -1) {
-      values.add(template);
+      values.add(normalizedTemplate);
     } else {
-      values[index] = template;
+      values[index] = normalizedTemplate;
     }
     final saved = await _saveAll(values);
     return switch (saved) {
-      Success<List<ShiftTemplate>>() => Success(template),
+      Success<List<ShiftTemplate>>() => Success(normalizedTemplate),
       Failure<List<ShiftTemplate>>() => PersistenceFailure(
         saved.message,
         cause: saved,

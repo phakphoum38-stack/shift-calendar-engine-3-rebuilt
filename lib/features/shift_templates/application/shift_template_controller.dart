@@ -38,13 +38,13 @@ class ShiftTemplateController extends ChangeNotifier {
   Future<bool> save(ShiftTemplate template) async {
     _setLoading();
     final result = await repository.save(template);
-    if (result case Success<ShiftTemplate>()) {
+    if (result case Success<ShiftTemplate>(value: final savedTemplate)) {
       final values = List<ShiftTemplate>.of(_templates);
-      final index = values.indexWhere((value) => value.id == template.id);
+      final index = values.indexWhere((value) => value.id == savedTemplate.id);
       if (index == -1) {
-        values.add(template);
+        values.add(savedTemplate);
       } else {
-        values[index] = template;
+        values[index] = savedTemplate;
       }
       _templates = _ordered(values);
     } else if (result case Failure<ShiftTemplate>()) {

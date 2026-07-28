@@ -15,12 +15,14 @@ class DriveRosterSourceController extends ChangeNotifier {
   List<DriveRosterSource> _recentSources = const [];
   DriveRosterSource? _lastImported;
   DriveRosterSource? _selectedSource;
+  SheetReadMode _readMode = SheetReadMode.configured;
   bool _loading = false;
   String? _errorCode;
 
   List<DriveRosterSource> get recentSources => _recentSources;
   DriveRosterSource? get lastImported => _lastImported;
   DriveRosterSource? get selectedSource => _selectedSource;
+  SheetReadMode get readMode => _readMode;
   bool get loading => _loading;
   String? get errorCode => _errorCode;
 
@@ -59,6 +61,13 @@ class DriveRosterSourceController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void selectReadMode(SheetReadMode mode) {
+    if (mode == _readMode) return;
+    _readMode = mode;
+    _errorCode = null;
+    notifyListeners();
+  }
+
   Future<bool> loadCurrentSource() async {
     final source = _selectedSource;
     if (source == null || _loading) return false;
@@ -66,7 +75,7 @@ class DriveRosterSourceController extends ChangeNotifier {
     _errorCode = null;
     notifyListeners();
     try {
-      await gateway.loadSource(source);
+      await gateway.loadSource(source, mode: _readMode);
       _lastImported = source;
       return true;
     } on DriveRosterSourceException catch (error) {

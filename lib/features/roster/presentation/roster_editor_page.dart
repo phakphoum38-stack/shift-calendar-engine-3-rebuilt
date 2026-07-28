@@ -120,10 +120,20 @@ class _RosterEditorPageState extends State<RosterEditorPage> {
                               assignment.remark,
                             ].whereType<String>().join(' • '),
                           ),
-                          trailing: IconButton(
-                            tooltip: context.l10n.delete,
-                            onPressed: () => _delete(day.date, assignment),
-                            icon: const Icon(Icons.delete_outline),
+                          trailing: Wrap(
+                            spacing: 4,
+                            children: [
+                              IconButton(
+                                tooltip: context.l10n.editAssignment,
+                                onPressed: () => _edit(day.date, assignment),
+                                icon: const Icon(Icons.edit_outlined),
+                              ),
+                              IconButton(
+                                tooltip: context.l10n.delete,
+                                onPressed: () => _delete(day.date, assignment),
+                                icon: const Icon(Icons.delete_outline),
+                              ),
+                            ],
                           ),
                         ),
                     ],
@@ -141,6 +151,7 @@ class _RosterEditorPageState extends State<RosterEditorPage> {
       builder: (context) => _AssignmentDialog(
         employees: controller.employees,
         shifts: controller.shifts,
+        title: context.l10n.addAssignment,
       ),
     );
     if (value == null || !mounted) return;
@@ -184,6 +195,66 @@ class _RosterEditorPageState extends State<RosterEditorPage> {
         shift: value.shift,
         location: value.location,
         remark: value.remark,
+      ),
+    );
+  }
+
+  Future<void> _edit(DateTime originalDate, ShiftAssignment assignment) async {
+    final value = await showDialog<_AssignmentDraft>(
+      context: context,
+      builder: (context) => _AssignmentDialog(
+        employees: controller.employees,
+        shifts: controller.shifts,
+        title: context.l10n.editAssignment,
+        initialDate: originalDate,
+        initialAssignment: assignment,
+      ),
+    );
+    if (value == null || !mounted) return;
+    final confirmed = await _confirmAssignment(value);
+    if (confirmed != true) return;
+    controller.updateAssignment(
+      originalDate: originalDate,
+      updatedDate: value.date,
+      assignment: ShiftAssignment(
+        id: assignment.id,
+        employee: value.employee,
+        shift: value.shift,
+        location: value.location,
+        remark: value.remark,
+        approved: assignment.approved,
+      ),
+    );
+  }
+
+  Future<bool?> _confirmAssignment(_AssignmentDraft value) {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(context.l10n.previewChanges),
+        content: ListTile(
+          leading: CircleAvatar(child: Text(value.shift.code)),
+          title: Text(value.employee.displayName),
+          subtitle: Text(
+            formatLocalizedDate(
+              DateFormat.yMMMMEEEEd(
+                Localizations.localeOf(context).toLanguageTag(),
+              ),
+              value.date,
+              locale: Localizations.localeOf(context).toLanguageTag(),
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(context.l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(context.l10n.confirm),
+          ),
+        ],
       ),
     );
   }
@@ -240,21 +311,39 @@ class _AssignmentDraft {
 }
 
 class _AssignmentDialog extends StatefulWidget {
-  const _AssignmentDialog({required this.employees, required this.shifts});
+  const _AssignmentDialog({
+    required this.employees,
+    required this.shifts,
+    required this.title,
+    this.initialDate,
+    this.initialAssignment,
+  });
 
   final List<Employee> employees;
   final List<ShiftTemplate> shifts;
+  final String title;
+  final DateTime? initialDate;
+  final ShiftAssignment? initialAssignment;
 
   @override
   State<_AssignmentDialog> createState() => _AssignmentDialogState();
 }
 
 class _AssignmentDialogState extends State<_AssignmentDialog> {
-  late DateTime date = DateTime.now();
-  late Employee employee = widget.employees.first;
-  late ShiftTemplate shift = widget.shifts.first;
+  late DateTime date = widget.initialDate ?? DateTime.now();
+  late Employee employee =
+      widget.initialAssignment?.employee ?? widget.employees.first;
+  late ShiftTemplate shift =
+      widget.initialAssignment?.shift ?? widget.shifts.first;
   final location = TextEditingController();
   final remark = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    location.text = widget.initialAssignment?.location ?? '';
+    remark.text = widget.initialAssignment?.remark ?? '';
+  }
 
   @override
   void dispose() {
@@ -265,7 +354,7 @@ class _AssignmentDialogState extends State<_AssignmentDialog> {
 
   @override
   Widget build(BuildContext context) => AlertDialog(
-    title: Text(context.l10n.addAssignment),
+    title: Text(widget.title),
     content: SizedBox(
       width: 520,
       child: Column(
@@ -323,6 +412,20 @@ class _AssignmentDialogState extends State<_AssignmentDialog> {
             controller: remark,
             decoration: InputDecoration(labelText: context.l10n.remark),
           ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            children: [
+              ActionChip(
+                label: Text(context.l10n.shiftCoverComment),
+                onPressed: () => _setRemark(context.l10n.shiftCoverComment),
+              ),
+              ActionChip(
+                label: Text(context.l10n.shiftSwapComment),
+                onPressed: () => _setRemark(context.l10n.shiftSwapComment),
+              ),
+            ],
+          ),
         ],
       ),
     ),
@@ -357,5 +460,10 @@ class _AssignmentDialogState extends State<_AssignmentDialog> {
       initialDate: date,
     );
     if (value != null) setState(() => date = value);
+  }
+
+  void _setRemark(String value) {
+    remark.text = value;
+    remark.selection = TextSelection.collapsed(offset: value.length);
   }
 }

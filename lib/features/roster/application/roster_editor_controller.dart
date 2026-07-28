@@ -10,6 +10,7 @@ import '../../../domain/entities/shift_template.dart';
 import '../../../domain/repositories/employee_repository.dart';
 import '../../../domain/repositories/schedule_repository.dart';
 import '../../../domain/repositories/shift_template_repository.dart';
+import 'schedule_merge_service.dart';
 
 /// Owns explicit canonical roster mutations and persistence.
 class RosterEditorController extends ChangeNotifier {
@@ -18,11 +19,13 @@ class RosterEditorController extends ChangeNotifier {
     required this.employeeRepository,
     required this.shiftTemplateRepository,
     required this.schedule,
+    this.mergeService = const ScheduleMergeService(),
   });
 
   final ScheduleRepository scheduleRepository;
   final EmployeeRepository employeeRepository;
   final ShiftTemplateRepository shiftTemplateRepository;
+  final ScheduleMergeService mergeService;
 
   Schedule schedule;
   List<Employee> _employees = const [];
@@ -63,6 +66,11 @@ class RosterEditorController extends ChangeNotifier {
     final assignments = List<ShiftAssignment>.of(existingDay.assignments);
     final index = assignments.indexWhere((value) => value.id == assignment.id);
     if (index == -1) {
+      if (assignments.any(
+        (value) => mergeService.areLogicallyEquivalent(value, assignment),
+      )) {
+        return;
+      }
       assignments.add(assignment);
     } else {
       assignments[index] = assignment;
@@ -87,6 +95,46 @@ class RosterEditorController extends ChangeNotifier {
       ),
     );
     notifyListeners();
+  }
+
+  void updateAssignment({
+    required DateTime originalDate,
+    required DateTime updatedDate,
+    required ShiftAssignment assignment,
+  }) {
+    final sourceDate = DateTime(
+      originalDate.year,
+      originalDate.month,
+      originalDate.day,
+    );
+    final targetDate = DateTime(
+      updatedDate.year,
+      updatedDate.month,
+      updatedDate.day,
+    );
+    final sourceMonth = schedule.month(sourceDate);
+    final sourceDay = sourceMonth?.day(sourceDate);
+    if (sourceMonth == null ||
+        sourceDay == null ||
+        !sourceDay.assignments.any((value) => value.id == assignment.id)) {
+      return;
+    }
+
+    if (sourceDate == targetDate) {
+      addAssignment(targetDate, assignment);
+      return;
+    }
+
+    schedule = schedule.replaceMonth(
+      sourceMonth.replaceDay(
+        sourceDay.copyWith(
+          assignments: sourceDay.assignments
+              .where((value) => value.id != assignment.id)
+              .toList(),
+        ),
+      ),
+    );
+    addAssignment(targetDate, assignment);
   }
 
   Future<bool> save() async {

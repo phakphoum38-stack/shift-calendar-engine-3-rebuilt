@@ -137,6 +137,19 @@ class AppLocalizationsTh extends AppLocalizations {
       'ใช้ข้อมูลตัวอย่างที่แน่นอนโดยไม่เชื่อมต่อบัญชีภายนอก';
 
   @override
+  String get logicMode => 'รูปแบบตรรกะ';
+
+  @override
+  String get logicModeDescription =>
+      'เลือกใช้กฎมาตรฐานหรือกำหนดรูปแบบการทำงานเองสำหรับแต่ละฟีเจอร์';
+
+  @override
+  String get standardLogic => 'มาตรฐาน';
+
+  @override
+  String get freestyleLogic => 'ฟรีสไตล์';
+
+  @override
   String get phaseStatus => 'รากฐาน SCE 3.0';
 
   @override
@@ -148,6 +161,9 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get editEmployee => 'แก้ไขบุคลากร';
+
+  @override
+  String get deactivateEmployee => 'ยืนยันการปิดใช้งานบุคลากร';
 
   @override
   String get deactivate => 'ปิดใช้งาน';
@@ -205,6 +221,9 @@ class AppLocalizationsTh extends AppLocalizations {
   String get editShiftTemplate => 'แก้ไขแม่แบบเวร';
 
   @override
+  String get deactivateShiftTemplate => 'ยืนยันการปิดใช้งานแม่แบบเวร';
+
+  @override
   String get shiftCode => 'รหัสเวร';
 
   @override
@@ -223,10 +242,16 @@ class AppLocalizationsTh extends AppLocalizations {
   String get rate => 'อัตรา';
 
   @override
+  String get shiftColor => 'สีของเวร';
+
+  @override
   String get manualRosterEditor => 'จัดตารางเวรด้วยตนเอง';
 
   @override
   String get addAssignment => 'เพิ่มรายการเวร';
+
+  @override
+  String get editAssignment => 'แก้ไขรายการเวร';
 
   @override
   String get selectDate => 'เลือกวันที่';
@@ -244,6 +269,12 @@ class AppLocalizationsTh extends AppLocalizations {
   String get remark => 'หมายเหตุ';
 
   @override
+  String get shiftCoverComment => 'ยกเวร';
+
+  @override
+  String get shiftSwapComment => 'แลกเวร';
+
+  @override
   String get previewChanges => 'ตรวจสอบการเปลี่ยนแปลง';
 
   @override
@@ -257,6 +288,9 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get reportMonth => 'เดือนของรายงาน';
+
+  @override
+  String get reportLanguage => 'ภาษาของรายงาน';
 
   @override
   String get allDepartments => 'ทุกหน่วยงาน';
@@ -312,4 +346,21 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get driveSourceLoaded => 'โหลดไฟล์ต้นทางปัจจุบันแล้ว';
+
+  @override
+  String get sheetReadMode => 'รูปแบบการอ่านชีต';
+
+  @override
+  String get configuredSheetRead => 'กำหนดเฉพาะ';
+
+  @override
+  String get standardSheetRead => 'อ่านธรรมดา';
+
+  @override
+  String get configuredSheetReadDescription =>
+      'อ่านตามการกำหนดคอลัมน์และแม่แบบเวร รวมชั่วโมงทำงาน สี และค่าตอบแทน';
+
+  @override
+  String get standardSheetReadDescription =>
+      'อ่านข้อมูลตารางเวรตามรูปแบบมาตรฐานโดยไม่ใช้การกำหนดเฉพาะ';
 }

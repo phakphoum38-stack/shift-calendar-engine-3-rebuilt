@@ -37,6 +37,14 @@ void main() {
           shift: shift,
         ),
       );
+      controller.addAssignment(
+        date,
+        ShiftAssignment(
+          id: 'duplicate-provider-id',
+          employee: employee,
+          shift: shift,
+        ),
+      );
 
       expect(
         controller.schedule.month(date)!.day(date)!.assignments,
@@ -45,8 +53,32 @@ void main() {
       expect(await controller.save(), isTrue);
       expect(scheduleRepository.saved, hasLength(1));
 
-      controller.deleteAssignment(date, 'manual-assignment');
+      final movedDate = DateTime(2027, 5, 11);
+      controller.updateAssignment(
+        originalDate: date,
+        updatedDate: movedDate,
+        assignment: ShiftAssignment(
+          id: 'manual-assignment',
+          employee: employee,
+          shift: shift,
+          location: 'ER',
+          remark: 'Updated',
+        ),
+      );
       expect(controller.schedule.month(date)!.day(date)!.assignments, isEmpty);
+      final updated = controller.schedule
+          .month(movedDate)!
+          .day(movedDate)!
+          .assignments;
+      expect(updated, hasLength(1));
+      expect(updated.single.location, 'ER');
+      expect(updated.single.remark, 'Updated');
+
+      controller.deleteAssignment(movedDate, 'manual-assignment');
+      expect(
+        controller.schedule.month(movedDate)!.day(movedDate)!.assignments,
+        isEmpty,
+      );
     },
   );
 }

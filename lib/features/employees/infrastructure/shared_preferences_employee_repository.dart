@@ -49,9 +49,17 @@ class SharedPreferencesEmployeeRepository implements EmployeeRepository {
 
   @override
   Future<Result<Employee>> save(Employee employee) async {
-    if (employee.id.trim().isEmpty ||
-        employee.employeeCode.trim().isEmpty ||
-        employee.firstName.trim().isEmpty) {
+    final normalizedCode = employee.employeeCode.trim();
+    final normalizedEmployee = employee.copyWith(
+      employeeCode: normalizedCode,
+      firstName: employee.firstName.trim(),
+      lastName: employee.lastName.trim(),
+      nickname: employee.nickname.trim(),
+      position: employee.position.trim(),
+    );
+    if (normalizedEmployee.id.trim().isEmpty ||
+        normalizedCode.isEmpty ||
+        normalizedEmployee.firstName.isEmpty) {
       return const ValidationFailure('Employee data is incomplete.');
     }
     final loaded = await _load();
@@ -61,24 +69,26 @@ class SharedPreferencesEmployeeRepository implements EmployeeRepository {
     final values = List<Employee>.of((loaded as Success<List<Employee>>).value);
     if (values.any(
       (value) =>
-          value.id != employee.id &&
-          value.employeeCode.toLowerCase() ==
-              employee.employeeCode.toLowerCase(),
+          value.id != normalizedEmployee.id &&
+          value.employeeCode.trim().toLowerCase() ==
+              normalizedCode.toLowerCase(),
     )) {
       return const ValidationFailure(
         'Employee code is already in use.',
         fieldErrors: {'employeeCode': 'duplicate'},
       );
     }
-    final index = values.indexWhere((value) => value.id == employee.id);
+    final index = values.indexWhere(
+      (value) => value.id == normalizedEmployee.id,
+    );
     if (index == -1) {
-      values.add(employee);
+      values.add(normalizedEmployee);
     } else {
-      values[index] = employee;
+      values[index] = normalizedEmployee;
     }
     final saved = await _saveAll(values);
     return switch (saved) {
-      Success<List<Employee>>() => Success(employee),
+      Success<List<Employee>>() => Success(normalizedEmployee),
       Failure<List<Employee>>() => PersistenceFailure(
         saved.message,
         cause: saved,

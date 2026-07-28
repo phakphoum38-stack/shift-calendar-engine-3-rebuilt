@@ -92,9 +92,27 @@ void main() {
       await employeeRepository.save(assignment.employee.copyWith(id: 'other')),
       isA<ValidationFailure>(),
     );
+    expect(
+      await employeeRepository.save(
+        assignment.employee.copyWith(
+          id: 'other-spaced',
+          employeeCode: '  e001  ',
+        ),
+      ),
+      isA<ValidationFailure>(),
+    );
     expect(await shiftRepository.save(assignment.shift), isA<Success>());
     expect(
       await shiftRepository.save(assignment.shift.copyWith(id: 'other')),
+      isA<ValidationFailure>(),
+    );
+    expect(
+      await shiftRepository.save(
+        assignment.shift.copyWith(
+          id: 'other-spaced',
+          code: '  ${assignment.shift.code.toLowerCase()}  ',
+        ),
+      ),
       isA<ValidationFailure>(),
     );
   });

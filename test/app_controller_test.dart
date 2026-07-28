@@ -19,10 +19,15 @@ void main() {
       expect(controller.schedule.assignments, isEmpty);
 
       await controller.updateSettings(
-        const AppSettings(locale: LocalePreference.thai, demoMode: true),
+        const AppSettings(
+          locale: LocalePreference.thai,
+          logic: LogicPreference.freestyle,
+          demoMode: true,
+        ),
       );
 
       expect(controller.settings.locale, LocalePreference.thai);
+      expect(controller.settings.logic, LogicPreference.freestyle);
       expect(controller.schedule.assignments, hasLength(1));
     },
   );

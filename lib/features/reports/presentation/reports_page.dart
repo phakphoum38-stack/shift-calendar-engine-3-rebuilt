@@ -148,6 +148,28 @@ class _ReportsPageState extends State<ReportsPage> {
                     ),
                   ),
                 ),
+                DropdownMenu<ReportLanguage>(
+                  width: 180,
+                  label: Text(context.l10n.reportLanguage),
+                  initialSelection: value.options.language,
+                  dropdownMenuEntries: [
+                    DropdownMenuEntry(
+                      value: ReportLanguage.thai,
+                      label: context.l10n.thai,
+                    ),
+                    DropdownMenuEntry(
+                      value: ReportLanguage.english,
+                      label: context.l10n.english,
+                    ),
+                  ],
+                  onSelected: (selectedLanguage) {
+                    if (selectedLanguage == null) return;
+                    language = selectedLanguage;
+                    value.updateOptions(
+                      value.options.copyWith(language: selectedLanguage),
+                    );
+                  },
+                ),
                 FilledButton.icon(
                   onPressed: value.busy
                       ? null

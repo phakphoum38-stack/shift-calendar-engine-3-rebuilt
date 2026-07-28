@@ -62,6 +62,11 @@ void main() {
   testWidgets('settings can enable deterministic demo schedule', (
     tester,
   ) async {
+    tester.view.physicalSize = const Size(430, 900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
     final scheduleRepository = MemoryScheduleRepository();
     final settingsRepository = MemorySettingsRepository(
       initialSettings: const AppSettings(locale: LocalePreference.english),

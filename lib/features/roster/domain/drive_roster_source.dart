@@ -13,6 +13,15 @@ class DriveRosterSource {
   final DateTime rosterMonth;
 }
 
+/// Controls how a Google Sheets roster is interpreted.
+enum SheetReadMode {
+  /// Uses the application's configured column mapping and shift definitions.
+  configured,
+
+  /// Reads the sheet using the standard, uncustomized roster layout.
+  standard,
+}
+
 /// Keeps one deterministic source per month.
 ///
 /// When Drive contains several files for the same month, the earliest modified

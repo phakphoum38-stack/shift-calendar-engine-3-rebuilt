@@ -134,9 +134,7 @@ class _EmployeesPageState extends State<EmployeesPage> {
                         if (action == _EmployeeAction.edit) {
                           unawaited(_edit(controller.employees[index]));
                         } else {
-                          unawaited(
-                            controller.deactivate(controller.employees[index]),
-                          );
+                          unawaited(_deactivate(controller.employees[index]));
                         }
                       },
                       itemBuilder: (context) => [
@@ -167,6 +165,27 @@ class _EmployeesPageState extends State<EmployeesPage> {
       builder: (context) => _EmployeeDialog(employee: employee),
     );
     if (value != null) await controller.save(value);
+  }
+
+  Future<void> _deactivate(Employee employee) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(context.l10n.deactivateEmployee),
+        content: Text(employee.displayName),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(context.l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(context.l10n.confirm),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) await controller.deactivate(employee);
   }
 }
 
@@ -286,7 +305,9 @@ class _EmployeeDialogState extends State<_EmployeeDialog> {
     Navigator.pop(
       context,
       Employee(
-        id: widget.employee?.id ?? 'employee:${normalizedCode.toLowerCase()}',
+        id:
+            widget.employee?.id ??
+            'employee:${DateTime.now().microsecondsSinceEpoch}',
         employeeCode: normalizedCode,
         firstName: firstName.text.trim(),
         lastName: lastName.text.trim(),

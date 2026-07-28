@@ -77,7 +77,7 @@ class _ShiftTemplatesPageState extends State<ShiftTemplatesPage> {
                       if (action == _TemplateAction.edit) {
                         unawaited(_edit(template));
                       } else {
-                        unawaited(controller.deactivate(template));
+                        unawaited(_deactivate(template));
                       }
                     },
                     itemBuilder: (context) => [
@@ -105,6 +105,27 @@ class _ShiftTemplatesPageState extends State<ShiftTemplatesPage> {
       builder: (context) => _ShiftTemplateDialog(template: template),
     );
     if (value != null) await controller.save(value);
+  }
+
+  Future<void> _deactivate(ShiftTemplate template) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(context.l10n.deactivateShiftTemplate),
+        content: Text('${template.code} — ${template.name}'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(context.l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(context.l10n.confirm),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) await controller.deactivate(template);
   }
 
   String _time(Duration value) {
@@ -141,6 +162,7 @@ class _ShiftTemplateDialogState extends State<_ShiftTemplateDialog> {
   late TimeOfDay end = _timeOfDay(
     widget.template?.endTime ?? const Duration(hours: 16),
   );
+  late int colorValue = widget.template?.colorValue ?? _shiftColors.first;
 
   @override
   void dispose() {
@@ -191,6 +213,28 @@ class _ShiftTemplateDialogState extends State<_ShiftTemplateDialog> {
             const SizedBox(height: 12),
             _numberField(hours, context.l10n.workingHours),
             _numberField(rate, context.l10n.rate),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(context.l10n.shiftColor),
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: [
+                for (final value in _shiftColors)
+                  InkWell(
+                    borderRadius: BorderRadius.circular(24),
+                    onTap: () => setState(() => colorValue = value),
+                    child: CircleAvatar(
+                      backgroundColor: Color(value),
+                      child: colorValue == value
+                          ? const Icon(Icons.check, color: Colors.white)
+                          : null,
+                    ),
+                  ),
+              ],
+            ),
           ],
         ),
       ),
@@ -255,12 +299,14 @@ class _ShiftTemplateDialogState extends State<_ShiftTemplateDialog> {
     Navigator.pop(
       context,
       ShiftTemplate(
-        id: widget.template?.id ?? normalizedCode.toLowerCase(),
+        id:
+            widget.template?.id ??
+            'shift:${DateTime.now().microsecondsSinceEpoch}',
         code: normalizedCode,
         name: name.text.trim(),
         startTime: Duration(hours: start.hour, minutes: start.minute),
         endTime: Duration(hours: end.hour, minutes: end.minute),
-        colorValue: widget.template?.colorValue ?? 0xFF039BE5,
+        colorValue: colorValue,
         workingHours: double.parse(hours.text),
         rate: double.parse(rate.text),
         active: widget.template?.active ?? true,
@@ -275,3 +321,14 @@ class _ShiftTemplateDialogState extends State<_ShiftTemplateDialog> {
     );
   }
 }
+
+const _shiftColors = <int>[
+  0xFF039BE5,
+  0xFF7986CB,
+  0xFF33B679,
+  0xFF0B8043,
+  0xFFF6BF26,
+  0xFFF4511E,
+  0xFFD50000,
+  0xFF8E24AA,
+];

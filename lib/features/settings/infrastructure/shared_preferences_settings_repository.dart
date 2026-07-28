@@ -26,6 +26,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
         AppSettings(
           locale: _locale(decoded['locale']),
           theme: _theme(decoded['theme']),
+          logic: _logic(decoded['logic']),
           demoMode: decoded['demoMode'] == true,
         ),
       );
@@ -46,6 +47,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
           'formatVersion': 1,
           'locale': settings.locale.name,
           'theme': settings.theme.name,
+          'logic': settings.logic.name,
           'demoMode': settings.demoMode,
         }),
       );
@@ -71,5 +73,12 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
             .where((item) => item.name == value)
             .firstOrNull ??
         ThemePreference.system;
+  }
+
+  LogicPreference _logic(Object? value) {
+    return LogicPreference.values
+            .where((item) => item.name == value)
+            .firstOrNull ??
+        LogicPreference.standard;
   }
 }

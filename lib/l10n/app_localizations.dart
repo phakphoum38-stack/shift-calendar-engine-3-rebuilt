@@ -350,6 +350,30 @@ abstract class AppLocalizations {
   /// **'Use deterministic sample data without external accounts.'**
   String get demoModeDescription;
 
+  /// No description provided for @logicMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Logic mode'**
+  String get logicMode;
+
+  /// No description provided for @logicModeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Use built-in rules or user-defined behavior for each feature.'**
+  String get logicModeDescription;
+
+  /// No description provided for @standardLogic.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get standardLogic;
+
+  /// No description provided for @freestyleLogic.
+  ///
+  /// In en, this message translates to:
+  /// **'Freestyle'**
+  String get freestyleLogic;
+
   /// No description provided for @phaseStatus.
   ///
   /// In en, this message translates to:
@@ -373,6 +397,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit employee'**
   String get editEmployee;
+
+  /// No description provided for @deactivateEmployee.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm employee deactivation'**
+  String get deactivateEmployee;
 
   /// No description provided for @deactivate.
   ///
@@ -482,6 +512,12 @@ abstract class AppLocalizations {
   /// **'Edit shift template'**
   String get editShiftTemplate;
 
+  /// No description provided for @deactivateShiftTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm shift-template deactivation'**
+  String get deactivateShiftTemplate;
+
   /// No description provided for @shiftCode.
   ///
   /// In en, this message translates to:
@@ -518,6 +554,12 @@ abstract class AppLocalizations {
   /// **'Rate'**
   String get rate;
 
+  /// No description provided for @shiftColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift color'**
+  String get shiftColor;
+
   /// No description provided for @manualRosterEditor.
   ///
   /// In en, this message translates to:
@@ -529,6 +571,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add assignment'**
   String get addAssignment;
+
+  /// No description provided for @editAssignment.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit assignment'**
+  String get editAssignment;
 
   /// No description provided for @selectDate.
   ///
@@ -560,6 +608,18 @@ abstract class AppLocalizations {
   /// **'Remark'**
   String get remark;
 
+  /// No description provided for @shiftCoverComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift cover'**
+  String get shiftCoverComment;
+
+  /// No description provided for @shiftSwapComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift swap'**
+  String get shiftSwapComment;
+
   /// No description provided for @previewChanges.
   ///
   /// In en, this message translates to:
@@ -589,6 +649,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Report month'**
   String get reportMonth;
+
+  /// No description provided for @reportLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Report language'**
+  String get reportLanguage;
 
   /// No description provided for @allDepartments.
   ///
@@ -691,6 +757,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The current source was loaded.'**
   String get driveSourceLoaded;
+
+  /// No description provided for @sheetReadMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Sheet reading mode'**
+  String get sheetReadMode;
+
+  /// No description provided for @configuredSheetRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Configured'**
+  String get configuredSheetRead;
+
+  /// No description provided for @standardSheetRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard read'**
+  String get standardSheetRead;
+
+  /// No description provided for @configuredSheetReadDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Use configured columns and shift templates, including working hours, color, and rate.'**
+  String get configuredSheetReadDescription;
+
+  /// No description provided for @standardSheetReadDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the roster using the standard layout without custom configuration.'**
+  String get standardSheetReadDescription;
 }
 
 class _AppLocalizationsDelegate

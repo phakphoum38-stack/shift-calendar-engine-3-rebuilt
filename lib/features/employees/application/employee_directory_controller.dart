@@ -67,13 +67,13 @@ class EmployeeDirectoryController extends ChangeNotifier {
   Future<bool> save(Employee employee) async {
     _setLoading();
     final result = await repository.save(employee);
-    if (result case Success<Employee>()) {
+    if (result case Success<Employee>(value: final savedEmployee)) {
       final values = List<Employee>.of(_persisted);
-      final index = values.indexWhere((value) => value.id == employee.id);
+      final index = values.indexWhere((value) => value.id == savedEmployee.id);
       if (index == -1) {
-        values.add(employee);
+        values.add(savedEmployee);
       } else {
-        values[index] = employee;
+        values[index] = savedEmployee;
       }
       _persisted = List.unmodifiable(values);
     } else if (result case Failure<Employee>()) {

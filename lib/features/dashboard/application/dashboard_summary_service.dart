@@ -8,11 +8,13 @@ class DashboardSummaryService {
   DashboardSummary build(Schedule schedule, DateTime now) {
     final today = DateTime(now.year, now.month, now.day);
     final tomorrow = today.add(const Duration(days: 1));
-    final month = schedule.month(today);
-    final todayAssignments = month?.day(today)?.assignments ?? const [];
-    final tomorrowAssignments = month?.day(tomorrow)?.assignments ?? const [];
+    final currentMonth = schedule.month(today);
+    final tomorrowMonth = schedule.month(tomorrow);
+    final todayAssignments = currentMonth?.day(today)?.assignments ?? const [];
+    final tomorrowAssignments =
+        tomorrowMonth?.day(tomorrow)?.assignments ?? const [];
     final assignments =
-        month?.days.expand((day) => day.assignments) ?? const [];
+        currentMonth?.days.expand((day) => day.assignments) ?? const [];
     return DashboardSummary(
       todayAssignments: List.unmodifiable(todayAssignments),
       tomorrowAssignments: List.unmodifiable(tomorrowAssignments),

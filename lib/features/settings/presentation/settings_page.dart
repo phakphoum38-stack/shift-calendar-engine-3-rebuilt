@@ -86,6 +86,41 @@ class SettingsPage extends StatelessWidget {
       ),
       const SizedBox(height: 16),
       Card(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                context.l10n.logicMode,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 6),
+              Text(context.l10n.logicModeDescription),
+              const SizedBox(height: 12),
+              SegmentedButton<LogicPreference>(
+                segments: [
+                  ButtonSegment(
+                    value: LogicPreference.standard,
+                    icon: const Icon(Icons.rule_outlined),
+                    label: Text(context.l10n.standardLogic),
+                  ),
+                  ButtonSegment(
+                    value: LogicPreference.freestyle,
+                    icon: const Icon(Icons.tune),
+                    label: Text(context.l10n.freestyleLogic),
+                  ),
+                ],
+                selected: {settings.logic},
+                onSelectionChanged: (value) =>
+                    onChanged(settings.copyWith(logic: value.single)),
+              ),
+            ],
+          ),
+        ),
+      ),
+      const SizedBox(height: 16),
+      Card(
         child: ListTile(
           leading: const Icon(Icons.view_timeline_outlined),
           title: Text(context.l10n.shiftTemplates),

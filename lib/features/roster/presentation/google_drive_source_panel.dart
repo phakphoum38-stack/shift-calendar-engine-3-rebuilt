@@ -61,6 +61,38 @@ class GoogleDriveSourcePanel extends StatelessWidget {
               ],
               const SizedBox(height: 20),
               Text(
+                l10n.sheetReadMode,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 8),
+              SegmentedButton<SheetReadMode>(
+                segments: [
+                  ButtonSegment(
+                    value: SheetReadMode.configured,
+                    icon: const Icon(Icons.tune),
+                    label: Text(l10n.configuredSheetRead),
+                  ),
+                  ButtonSegment(
+                    value: SheetReadMode.standard,
+                    icon: const Icon(Icons.table_view_outlined),
+                    label: Text(l10n.standardSheetRead),
+                  ),
+                ],
+                selected: {controller.readMode},
+                onSelectionChanged: controller.loading
+                    ? null
+                    : (selection) =>
+                          controller.selectReadMode(selection.single),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                controller.readMode == SheetReadMode.configured
+                    ? l10n.configuredSheetReadDescription
+                    : l10n.standardSheetReadDescription,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              const SizedBox(height: 20),
+              Text(
                 l10n.recentlyModified,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
