@@ -387,4 +387,73 @@ class AppLocalizationsTh extends AppLocalizations {
   @override
   String get standardSheetReadDescription =>
       'อ่านข้อมูลตารางเวรตามรูปแบบมาตรฐานโดยไม่ใช้การกำหนดเฉพาะ';
+
+  @override
+  String get newExchangeRequest => 'สร้างคำขอ';
+
+  @override
+  String get coverShift => 'ยกเวร';
+
+  @override
+  String get swapShift => 'แลกเวร';
+
+  @override
+  String get originalShift => 'เวรเดิม';
+
+  @override
+  String get offeredShift => 'เวรที่นำมาแลก';
+
+  @override
+  String get receivingEmployee => 'ผู้รับเวร';
+
+  @override
+  String get reason => 'เหตุผล';
+
+  @override
+  String get submitRequest => 'ส่งคำขอ';
+
+  @override
+  String get acceptExchange => 'ตอบรับ';
+
+  @override
+  String get approveExchange => 'อนุมัติการแลกเวร';
+
+  @override
+  String get previewAndApprove => 'ตรวจสอบและอนุมัติ';
+
+  @override
+  String get rejectExchange => 'ปฏิเสธ';
+
+  @override
+  String get cancelRequest => 'ยกเลิกคำขอ';
+
+  @override
+  String get exchangePreview => 'ตรวจสอบก่อนอนุมัติ';
+
+  @override
+  String get noExchangeConflicts => 'ไม่พบความขัดแย้งที่ห้ามอนุมัติ';
+
+  @override
+  String get waitingForAcceptance => 'รอการตอบรับ';
+
+  @override
+  String get waitingForApproval => 'รออนุมัติ';
+
+  @override
+  String get approvedExchange => 'อนุมัติแล้ว';
+
+  @override
+  String get rejectedExchange => 'ปฏิเสธแล้ว';
+
+  @override
+  String get cancelledExchange => 'ยกเลิกแล้ว';
+
+  @override
+  String get rejectionReason => 'เหตุผลที่ปฏิเสธ';
+
+  @override
+  String get exchangeSaved => 'บันทึกคำขอแลกเวรแล้ว';
+
+  @override
+  String get retry => 'ลองใหม่';
 }

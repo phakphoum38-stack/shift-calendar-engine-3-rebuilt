@@ -388,4 +388,73 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get standardSheetReadDescription =>
       'Read the roster using the standard layout without custom configuration.';
+
+  @override
+  String get newExchangeRequest => 'New request';
+
+  @override
+  String get coverShift => 'Shift cover';
+
+  @override
+  String get swapShift => 'Shift swap';
+
+  @override
+  String get originalShift => 'Original shift';
+
+  @override
+  String get offeredShift => 'Offered shift';
+
+  @override
+  String get receivingEmployee => 'Receiving employee';
+
+  @override
+  String get reason => 'Reason';
+
+  @override
+  String get submitRequest => 'Submit request';
+
+  @override
+  String get acceptExchange => 'Accept';
+
+  @override
+  String get approveExchange => 'Approve exchange';
+
+  @override
+  String get previewAndApprove => 'Preview and approve';
+
+  @override
+  String get rejectExchange => 'Reject';
+
+  @override
+  String get cancelRequest => 'Cancel request';
+
+  @override
+  String get exchangePreview => 'Exchange preview';
+
+  @override
+  String get noExchangeConflicts => 'No blocking roster conflicts were found.';
+
+  @override
+  String get waitingForAcceptance => 'Waiting for acceptance';
+
+  @override
+  String get waitingForApproval => 'Waiting for approval';
+
+  @override
+  String get approvedExchange => 'Approved';
+
+  @override
+  String get rejectedExchange => 'Rejected';
+
+  @override
+  String get cancelledExchange => 'Cancelled';
+
+  @override
+  String get rejectionReason => 'Rejection reason';
+
+  @override
+  String get exchangeSaved => 'Exchange request saved.';
+
+  @override
+  String get retry => 'Retry';
 }

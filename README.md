@@ -26,10 +26,12 @@ Android, iOS, Windows, macOS และ Linux พร้อม UI ภาษาไ�
 - ตารางเวรรายเดือนและ Demo mode
 - รายงาน PDF A4 ภาษาไทย/อังกฤษ พร้อม Preview, Print และ Share
 - Google Sign-In และการเลือกไฟล์ Google Sheets จาก Google Drive
+- ระบบยกเวร/แลกเวร พร้อมตอบรับ อนุมัติ ปฏิเสธ ยกเลิก และ Preview
+  ตรวจเวลาทับซ้อนกับเวลาพักขั้นต่ำก่อนอนุมัติ
 - ธีม System/Light/Dark และ UI แบบ responsive
 
 กฎตรวจเวรชนกัน การจำกัดชั่วโมง/จำนวนเวร การจัดเวรอัตโนมัติ
-ระบบแลกเวรและอนุมัติ OT/Payroll การนำเข้า Excel แบบเต็มรูปแบบ
+สิทธิ์ผู้อนุมัติและการแจ้งเตือน OT/Payroll การนำเข้า Excel แบบเต็มรูปแบบ
 และ Google Calendar Sync ยังอยู่ในแผนพัฒนาระยะถัดไป ดูรายละเอียดใน
 [Roadmap](docs/ROADMAP.md)
 

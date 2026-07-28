@@ -829,6 +829,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Read the roster using the standard layout without custom configuration.'**
   String get standardSheetReadDescription;
+
+  /// No description provided for @newExchangeRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'New request'**
+  String get newExchangeRequest;
+
+  /// No description provided for @coverShift.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift cover'**
+  String get coverShift;
+
+  /// No description provided for @swapShift.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift swap'**
+  String get swapShift;
+
+  /// No description provided for @originalShift.
+  ///
+  /// In en, this message translates to:
+  /// **'Original shift'**
+  String get originalShift;
+
+  /// No description provided for @offeredShift.
+  ///
+  /// In en, this message translates to:
+  /// **'Offered shift'**
+  String get offeredShift;
+
+  /// No description provided for @receivingEmployee.
+  ///
+  /// In en, this message translates to:
+  /// **'Receiving employee'**
+  String get receivingEmployee;
+
+  /// No description provided for @reason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get reason;
+
+  /// No description provided for @submitRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit request'**
+  String get submitRequest;
+
+  /// No description provided for @acceptExchange.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get acceptExchange;
+
+  /// No description provided for @approveExchange.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve exchange'**
+  String get approveExchange;
+
+  /// No description provided for @previewAndApprove.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview and approve'**
+  String get previewAndApprove;
+
+  /// No description provided for @rejectExchange.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get rejectExchange;
+
+  /// No description provided for @cancelRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel request'**
+  String get cancelRequest;
+
+  /// No description provided for @exchangePreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange preview'**
+  String get exchangePreview;
+
+  /// No description provided for @noExchangeConflicts.
+  ///
+  /// In en, this message translates to:
+  /// **'No blocking roster conflicts were found.'**
+  String get noExchangeConflicts;
+
+  /// No description provided for @waitingForAcceptance.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for acceptance'**
+  String get waitingForAcceptance;
+
+  /// No description provided for @waitingForApproval.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for approval'**
+  String get waitingForApproval;
+
+  /// No description provided for @approvedExchange.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved'**
+  String get approvedExchange;
+
+  /// No description provided for @rejectedExchange.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get rejectedExchange;
+
+  /// No description provided for @cancelledExchange.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get cancelledExchange;
+
+  /// No description provided for @rejectionReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejection reason'**
+  String get rejectionReason;
+
+  /// No description provided for @exchangeSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange request saved.'**
+  String get exchangeSaved;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
 }
 
 class _AppLocalizationsDelegate

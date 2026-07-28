@@ -3,7 +3,10 @@ import '../domain/repositories/schedule_repository.dart';
 import '../domain/repositories/settings_repository.dart';
 import '../domain/repositories/employee_repository.dart';
 import '../domain/repositories/shift_template_repository.dart';
+import '../domain/repositories/exchange_repository.dart';
 import '../features/dashboard/application/dashboard_summary_service.dart';
+import '../features/exchange/application/exchange_controller.dart';
+import '../features/exchange/infrastructure/shared_preferences_exchange_repository.dart';
 import '../features/foundation/infrastructure/memory_schedule_repository.dart';
 import '../features/foundation/infrastructure/memory_settings_repository.dart';
 import '../features/foundation/infrastructure/shared_preferences_schedule_repository.dart';
@@ -34,6 +37,7 @@ class AppDependencies {
     SettingsRepository? settingsRepository,
     EmployeeRepository? employeeRepository,
     ShiftTemplateRepository? shiftTemplateRepository,
+    ExchangeRepository? exchangeRepository,
     MonthlyRosterReportMapper? monthlyRosterReportMapper,
     this.reportServiceOverride,
     ReportOutputGateway? reportOutputGateway,
@@ -49,6 +53,8 @@ class AppDependencies {
        shiftTemplateRepository =
            shiftTemplateRepository ??
            SharedPreferencesShiftTemplateRepository(),
+       exchangeRepository =
+           exchangeRepository ?? SharedPreferencesExchangeRepository(),
        monthlyRosterReportMapper =
            monthlyRosterReportMapper ?? const MonthlyRosterReportMapper(),
        reportOutputGateway =
@@ -74,6 +80,7 @@ class AppDependencies {
   final SettingsRepository settingsRepository;
   final EmployeeRepository employeeRepository;
   final ShiftTemplateRepository shiftTemplateRepository;
+  final ExchangeRepository exchangeRepository;
   final DashboardSummaryService dashboardSummaryService;
   final MonthlyRosterReportMapper monthlyRosterReportMapper;
   final ReportOutputGateway reportOutputGateway;
@@ -127,6 +134,15 @@ class AppDependencies {
 
   ShiftTemplateController createShiftTemplateController() {
     return ShiftTemplateController(repository: shiftTemplateRepository);
+  }
+
+  ExchangeController createExchangeController(Schedule schedule) {
+    return ExchangeController(
+      exchangeRepository: exchangeRepository,
+      employeeRepository: employeeRepository,
+      scheduleRepository: scheduleRepository,
+      schedule: schedule,
+    );
   }
 
   ReportController createReportController(

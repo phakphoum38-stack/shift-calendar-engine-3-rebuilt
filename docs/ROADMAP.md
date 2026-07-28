@@ -6,7 +6,7 @@
 | 1 | Navigation surfaces, Dashboard, roster, employees, exchange, reports, settings | In progress |
 | 2 | Employee directory, shift templates, manual roster builder, persistence, A4 grid | Complete |
 | 3 | Rule, conflict, policy, and preview engines | Planned |
-| 4 | Shift exchange, approval, audit history, notifications | Planned |
+| 4 | Shift exchange, approval, audit history, notifications | In progress |
 | 5 | Payroll, OT, allowances, monthly summaries, exports | Planned |
 | 6 | Excel and Google Sheets import, mapping, relationship engine, diff | Planned |
 | 7 | Google Calendar preview, sync, retry, resume, history | Planned |
@@ -31,6 +31,18 @@ full CI matrix is green.
 The monthly report now maps the canonical schedule into a deterministic A4
 landscape grid with Thai/English labels, statistics, legend, preview, printing,
 and PDF sharing.
+
+## Delivered Phase 4 foundation
+
+- atomic local persistence for cover and swap requests
+- submitted, accepted, approved, rejected, and cancelled request states
+- overlap and minimum-rest preview before approval
+- canonical assignment ownership changes only after approval
+- rollback to the previous schedule if final request persistence fails
+
+User identity/roles, attachments, notifications, a full audit timeline,
+workspace-configurable rules, payroll recalculation, and Calendar sync remain
+planned.
 
 ## Parallel production migration
 
