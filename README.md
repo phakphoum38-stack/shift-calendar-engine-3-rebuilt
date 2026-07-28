@@ -1,5 +1,9 @@
 # Shift Calendar Engine 3.0
 
+[![Validate Flutter](https://github.com/phakphoum38-stack/shift-calendar-engine-3-rebuilt/actions/workflows/validate.yml/badge.svg?branch=main)](https://github.com/phakphoum38-stack/shift-calendar-engine-3-rebuilt/actions/workflows/validate.yml)
+[![Security](https://github.com/phakphoum38-stack/shift-calendar-engine-3-rebuilt/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/phakphoum38-stack/shift-calendar-engine-3-rebuilt/actions/workflows/security.yml)
+[![Deploy Flutter Web](https://github.com/phakphoum38-stack/shift-calendar-engine-3-rebuilt/actions/workflows/deploy-pages.yml/badge.svg?branch=main)](https://github.com/phakphoum38-stack/shift-calendar-engine-3-rebuilt/actions/workflows/deploy-pages.yml)
+
 ระบบจัดตารางเวรบุคลากรแบบข้ามแพลตฟอร์ม พัฒนาด้วย Flutter รองรับ Web,
 Android, iOS, Windows, macOS และ Linux พร้อม UI ภาษาไทยและอังกฤษ
 
@@ -79,6 +83,29 @@ flutter build web --release \
 
 GitHub Actions จะ build และ deploy GitHub Pages อัตโนมัติเมื่อมีการ push
 เข้า branch `main`
+
+## GitHub Actions
+
+โปรเจกต์มี workflow ดังนี้:
+
+- **Validate Flutter** — ตรวจ format, analyze และ test เมื่อ push หรือเปิด PR
+- **Security** — ตรวจ dependency และ secret พร้อมรันตามตารางทุกสัปดาห์
+- **Build Platforms** — build Web, Android, Linux, Windows, macOS และ iOS
+  เมื่อ push เข้า `main`
+- **Deploy Flutter Web** — build และ deploy Web UI ไปยัง GitHub Pages
+- **Release Artifacts** — build Web และ Android APK สำหรับดาวน์โหลด
+  โดยกด **Run workflow** หรือ push tag ที่ขึ้นต้นด้วย `v`
+
+ดาวน์โหลดไฟล์จากหน้า
+[GitHub Actions](https://github.com/phakphoum38-stack/shift-calendar-engine-3-rebuilt/actions):
+
+1. เปิด workflow **Release Artifacts**
+2. กด **Run workflow** และเลือก branch `main`
+3. รอ job สำเร็จ
+4. เปิดผลการรัน แล้วดาวน์โหลด Web หรือ Android APK จากหัวข้อ **Artifacts**
+
+ไฟล์ artifact เก็บไว้ 14 วัน Android APK จาก workflow นี้เป็นแพ็กเกจทดสอบ
+ที่ยังไม่ได้ลงนามด้วย production signing key สำหรับเผยแพร่ผ่าน Play Store
 
 ## โครงสร้างระบบ
 
