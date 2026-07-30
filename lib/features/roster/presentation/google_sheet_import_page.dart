@@ -21,90 +21,91 @@ class GoogleSheetImportPage extends StatelessWidget {
   final DriveRosterSourceController controller;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(context.l10n.googleDrive)),
-    body: SafeArea(
-      child: ListenableBuilder(
-        listenable: Listenable.merge([controller, controller.auth]),
-        builder: (context, _) => ListView(
-          padding: const EdgeInsets.all(20),
-          children: [
-            _Header(controller: controller),
-            if (controller.loading) ...[
-              const SizedBox(height: 16),
-              const LinearProgressIndicator(),
-            ],
-            if (controller.errorCode != null) ...[
-              const SizedBox(height: 12),
-              Text(
-                controller.errorCode == 'google_drive_not_configured'
-                    ? context.l10n.googleDriveNotConfigured
-                    : context.l10n.googleDriveLoadFailed,
-                style: TextStyle(color: Theme.of(context).colorScheme.error),
-              ),
-            ],
-            const SizedBox(height: 20),
-            Text(
-              context.l10n.sheetReadMode,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: 8),
-            SegmentedButton<SheetReadMode>(
-              segments: [
-                ButtonSegment(
-                  value: SheetReadMode.configured,
-                  icon: const Icon(Icons.tune),
-                  label: Text(context.l10n.configuredSheetRead),
-                ),
-                ButtonSegment(
-                  value: SheetReadMode.standard,
-                  icon: const Icon(Icons.table_view_outlined),
-                  label: Text(context.l10n.standardSheetRead),
-                ),
-              ],
-              selected: {controller.readMode},
-              onSelectionChanged: controller.loading
-                  ? null
-                  : (selection) =>
-                        controller.selectReadMode(selection.single),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              context.l10n.recentlyModified,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: 8),
-            if (controller.recentSources.isEmpty)
-              Text(context.l10n.noDriveRosterFiles)
-            else
-              for (final source in controller.recentSources)
-                RadioListTile<String>(
-                  value: source.id,
-                  groupValue: controller.selectedSource?.id,
-                  onChanged: controller.loading
-                      ? null
-                      : (_) => controller.select(source),
-                  title: Text(source.name),
-                  subtitle: Text(_sourceDetails(context, source)),
-                  secondary: const Icon(Icons.table_chart_outlined),
-                ),
+  Widget build(BuildContext context) => SafeArea(
+    child: ListenableBuilder(
+      listenable: Listenable.merge([controller, controller.auth]),
+      builder: (context, _) => ListView(
+        padding: const EdgeInsets.all(20),
+        children: [
+          Text(
+            'Google Sheets Import',
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          const SizedBox(height: 16),
+          _Header(controller: controller),
+          if (controller.loading) ...[
             const SizedBox(height: 16),
-            FilledButton.icon(
-              onPressed:
-                  controller.selectedSource == null || controller.loading
-                  ? null
-                  : () => _importSelected(context),
-              icon: const Icon(Icons.download_outlined),
-              label: Text(context.l10n.loadCurrentSource),
-            ),
-            const SizedBox(height: 8),
+            const LinearProgressIndicator(),
+          ],
+          if (controller.errorCode != null) ...[
+            const SizedBox(height: 12),
             Text(
-              'นำเข้าเฉพาะ Google Sheets ที่เลือกเท่านั้น ไม่แนบหรืออัปโหลดไฟล์ส่วนตัวเข้า GitHub',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall,
+              controller.errorCode == 'google_drive_not_configured'
+                  ? context.l10n.googleDriveNotConfigured
+                  : context.l10n.googleDriveLoadFailed,
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
             ),
           ],
-        ),
+          const SizedBox(height: 20),
+          Text(
+            context.l10n.sheetReadMode,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 8),
+          SegmentedButton<SheetReadMode>(
+            segments: [
+              ButtonSegment(
+                value: SheetReadMode.configured,
+                icon: const Icon(Icons.tune),
+                label: Text(context.l10n.configuredSheetRead),
+              ),
+              ButtonSegment(
+                value: SheetReadMode.standard,
+                icon: const Icon(Icons.table_view_outlined),
+                label: Text(context.l10n.standardSheetRead),
+              ),
+            ],
+            selected: {controller.readMode},
+            onSelectionChanged: controller.loading
+                ? null
+                : (selection) => controller.selectReadMode(selection.single),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            context.l10n.recentlyModified,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 8),
+          if (controller.recentSources.isEmpty)
+            Text(context.l10n.noDriveRosterFiles)
+          else
+            for (final source in controller.recentSources)
+              RadioListTile<String>(
+                value: source.id,
+                groupValue: controller.selectedSource?.id,
+                onChanged: controller.loading
+                    ? null
+                    : (_) => controller.select(source),
+                title: Text(source.name),
+                subtitle: Text(_sourceDetails(context, source)),
+                secondary: const Icon(Icons.table_chart_outlined),
+              ),
+          const SizedBox(height: 16),
+          FilledButton.icon(
+            onPressed:
+                controller.selectedSource == null || controller.loading
+                ? null
+                : () => _importSelected(context),
+            icon: const Icon(Icons.download_outlined),
+            label: Text(context.l10n.loadCurrentSource),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'นำเข้าเฉพาะ Google Sheets ที่เลือกเท่านั้น ไม่แนบหรืออัปโหลดไฟล์ส่วนตัวเข้า GitHub',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ],
       ),
     ),
   );
