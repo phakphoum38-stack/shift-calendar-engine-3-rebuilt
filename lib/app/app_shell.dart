@@ -14,6 +14,7 @@ import '../features/reports/domain/monthly_roster_report.dart';
 import '../features/roster/application/roster_controller.dart';
 import '../features/roster/application/roster_editor_controller.dart';
 import '../features/roster/application/drive_roster_source_controller.dart';
+import '../features/roster/presentation/google_sheet_import_page.dart';
 import '../features/roster/presentation/roster_page.dart';
 import '../features/employees/application/employee_directory_controller.dart';
 import '../features/shift_templates/application/shift_template_controller.dart';
@@ -23,7 +24,7 @@ import '../l10n/l10n.dart';
 import '../domain/entities/schedule.dart';
 import 'app_controller.dart';
 
-/// Adaptive six-destination application shell.
+/// Adaptive application shell with a dedicated Google Sheets destination.
 class AppShell extends StatefulWidget {
   const AppShell({
     required this.controller,
@@ -65,6 +66,21 @@ class AppShell extends StatefulWidget {
 
 class _AppShellState extends State<AppShell> {
   int selectedIndex = 0;
+  late final DriveRosterSourceController googleSheetController;
+
+  @override
+  void initState() {
+    super.initState();
+    googleSheetController = widget.driveRosterSourceControllerFactory(
+      widget.controller.settings.googleWebClientId,
+    );
+  }
+
+  @override
+  void dispose() {
+    googleSheetController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +92,11 @@ class _AppShellState extends State<AppShell> {
       NavigationDestination(
         icon: const Icon(Icons.calendar_month_outlined),
         label: context.l10n.roster,
+      ),
+      const NavigationDestination(
+        icon: Icon(Icons.table_chart_outlined),
+        selectedIcon: Icon(Icons.table_chart),
+        label: 'Google Sheets',
       ),
       NavigationDestination(
         icon: const Icon(Icons.groups_outlined),
@@ -111,6 +132,7 @@ class _AppShellState extends State<AppShell> {
         googleWebClientId: widget.controller.settings.googleWebClientId,
         onScheduleSaved: widget.controller.adoptSchedule,
       ),
+      GoogleSheetImportPage(controller: googleSheetController),
       EmployeesPage(
         schedule: widget.controller.schedule,
         controllerFactory: widget.employeeDirectoryControllerFactory,
@@ -149,6 +171,7 @@ class _AppShellState extends State<AppShell> {
                         for (final destination in destinations)
                           NavigationRailDestination(
                             icon: destination.icon,
+                            selectedIcon: destination.selectedIcon,
                             label: Text(destination.label),
                           ),
                       ],
