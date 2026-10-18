@@ -17,15 +17,15 @@ class DeviceRosterFilePicker implements LocalRosterFilePicker {
 
   @override
   Future<({String name, Uint8List bytes})?> pick() async {
-    final result = await FilePicker.pickFiles(
+    final file = await FilePicker.pickFile(
       type: FileType.custom,
       allowedExtensions: const ['csv', 'tsv', 'xlsx'],
-      withData: true,
-      allowMultiple: false,
     );
-    final file = result?.files.single;
-    final bytes = file?.bytes;
-    if (file == null || bytes == null) return null;
+
+    if (file == null) return null;
+
+    final bytes = await file.readAsBytes();
+
     return (name: file.name, bytes: bytes);
   }
 }

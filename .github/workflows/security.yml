@@ -3,42 +3,87 @@ name: Security
 on:
   pull_request:
   push:
-    branches: [main]
+    branches:
+      - main
   schedule:
     - cron: "23 3 * * 1"
   workflow_dispatch:
+    inputs:
+      scan_scope:
+        description: "Select security scan scope"
+        required: true
+        type: choice
+        default: all
+        options:
+          - all
+          - dependencies
+          - secrets
 
 permissions:
   contents: read
+
+concurrency:
+  group: security-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   dependency-scan:
     name: Dependency Vulnerability Scan
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
+    timeout-minutes: 15
+    if: >-
+      github.event_name != 'workflow_dispatch' ||
+      inputs.scan_scope == 'all' ||
+      inputs.scan_scope == 'dependencies'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Scan dependencies with OSV-Scanner
+      - name: Set up Node.js LTS
+        uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+
+      - name: Install Node.js dependencies when a lockfile exists
+        shell: bash
+        run: |
+          if [[ -f package-lock.json || -f npm-shrinkwrap.json ]]; then
+            npm ci
+          else
+            echo "No npm lockfile found; skipping npm installation."
+          fi
+
+      - name: Scan Dart and Flutter dependencies
+        if: hashFiles('pubspec.lock') != ''
         uses: google/osv-scanner-action/osv-scanner-action@v2.6.0
         with:
           scan-args: |-
             --lockfile=pubspec.lock
 
+      - name: Audit npm dependencies when a lockfile exists
+        shell: bash
+        run: |
+          if [[ -f package-lock.json || -f npm-shrinkwrap.json ]]; then
+            npm audit --audit-level=high
+          else
+            echo "No npm lockfile found; skipping npm audit."
+          fi
+
   secret-scan:
-    name: Git Secret Scan
+    name: Secret Detection
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
+    timeout-minutes: 15
+    if: >-
+      github.event_name != 'workflow_dispatch' ||
+      inputs.scan_scope == 'all' ||
+      inputs.scan_scope == 'secrets'
     steps:
       - name: Checkout full Git history
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - name: Scan for leaked secrets
+      - name: Scan repository for leaked secrets
         uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
